@@ -1,0 +1,469 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">database</span>&nbsp;트랜잭션</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_transaction" class="index scrollspy">
+                    <h3>트랜잭션 개념 정의</h3>
+					<ol>
+						<li>데이터그리드 자체적으로 원본데이터를 기억하여 관리/편집되는 데이터를 브라우저 내에서 추적 (브라우저의 범위를 벗어나지 않음)</li><br/>
+						<li>신규 추가된 데이터, 수정된 데이터, 삭제된 데이터, 저장되지 않은 데이터 호출가능, 데이터 유효성 기준 지정가능 및 유효성을 확보하지 못한 경우 저장 차단기능 추가</li><br/>
+						<li>사용을 위해서는 데이터그리드 생성 후&nbsp;<code class="materialize-red-text">fuckingNexacro.setTransactionEnabled()</code>&nbsp;를 별도로 호출해야합니다.</li><br/>
+					</ol>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;트랜잭션 모드는 매우 실험적인 기능입니다.</b><br/>
+						<span>최적화가 이루어지지 않아&nbsp;<b class="red-text">100 건</b>&nbsp;만으로도 심각한 성능저하가 발생합니다. 과도한 데이터 호출 시 심각한 응답없음 현상으로도 이어질 수 있습니다.</span><br/>
+						<span>트랜잭션 관련 기능들은 향후 업데이트를 통한 개선이 아닌&nbsp;<span class="materialize-red-text">deprecated</span>&nbsp;처리를 통해 기능이 향후 제외될 수 있습니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setTransactionEnabled(); // 트랜잭션 모드 활성화, 데이터그리드 생성 후 트랜잭션 기능을 사용하기 위해서는 호출 필요
+fuckingNexacro.setTransactionDisabled(); // 트랜잭션 모드를 사용하지 않습니다. 성능적인 이점을 얻습니다.
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx",      text: "idx",      width: 120, type: "number", fixed: false, format: null }, 
+                    { key: "id",       text: "id",       width: 120, type: "string", fixed: false, format: null }, 
+                    { key: "name",     text: "name",     width: 160, type: "string", fixed: false, format: null }, 
+                    { key: "language", text: "language", width: 120, type: "string", fixed: false, format: null }, 
+                    { key: "bio",      text: "bio",      width: 240, type: "string", fixed: false, format: null }, 
+                    { key: "version",  text: "version",  width: 120, type: "number", fixed: false, format: null }
+                ], 
+                data: [], 
+                keyColumn: "id", 
+                width: "100%", 
+                height: 720, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.setTransactionEnabled(); // 트랜잭션 모드 활성화, 디폴트는 비활성화이기 때문에 따로 호출을 해주셔야 합니다.
+        
+        fetch("https://microsoftedge.github.io/Demos/json-dummy-data/64KB-min.json")
+                .then(res => res.json())
+                .then(resultList => fuckingNexacro.setDataList(resultList.map((item, index) => {
+                    item["idx"] = index; return item; 
+                })));
+    });
+</script>
+</xmp></code></pre>
+					<div id="transactionPerformance"></div>
+					<script>
+						let transactionPerformance = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							transactionPerformance = new FuckingNexacro({
+								target: document.querySelector("#transactionPerformance"), 
+								props: {
+									column: [
+										{ key: "idx",      text: "idx",      width: 120, type: "number", fixed: false, format: null }, 
+										{ key: "id",       text: "id",       width: 120, type: "string", fixed: false, format: null }, 
+										{ key: "name",     text: "name",     width: 160, type: "string", fixed: false, format: null }, 
+										{ key: "language", text: "language", width: 120, type: "string", fixed: false, format: null }, 
+										{ key: "bio",      text: "bio",      width: 240, type: "string", fixed: false, format: null }, 
+										{ key: "version",  text: "version",  width: 120, type: "number", fixed: false, format: null }
+									], 
+									data: [], 
+									keyColumn: "id", 
+									width: "100%", 
+									height: 720, 
+									rowHeight: 32
+								}
+							});
+							transactionPerformance.setTransactionEnabled();
+
+							fetch("https://microsoftedge.github.io/Demos/json-dummy-data/64KB-min.json").then(res => res.json()).then(resultList => transactionPerformance.setDataList(resultList.map((item, index) => { item["idx"] = index; return item; })));
+						});
+					</script><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;수정된 데이터가 빨간 텍스트로 되는 것은 기본기능이 아닌 CSS 스타일링입니다.</b><br/>
+						<span>저장되지 않은 데이터에는&nbsp;<code class="materialize-red-text">.fn_row</code>&nbsp;엘리먼트에&nbsp;<code class="materialize-red-text">.fn_row_unsaved</code>&nbsp;클래스가 추가됩니다. 이를 이용하여 빨간 텍스트가 아닌 빨간 셀 등 자유로은 CSS 효과 지정이 가능합니다.&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>에서&nbsp;<code class="materialize-red-text">.fn_row_unsaved</code>&nbsp;스타일을 확인해주세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="01_commit_rollback" class="index scrollspy">
+                    <h3>커밋/롤백</h3>
+					<p>데이터그리드의 관리/편집중인 데이터들의 수정상태를 확정/취소합니다. 백엔드와 전혀 관련없이 데이터그리드 자체적인 영속성 관리 기능이며, 백엔드와의 연동은 개발자가 직접 구현해야 합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;트랜잭션 관련 기능은 성능을 기대하기 어렵습니다.</b><br/>
+						<span>향후 개선 가능성이 없으며 여건에 따라 사용하시되 필요성이 요구되는 경우에는 다른 방법을 검토하시는 것을 진지하게 권고드립니다.</span>
+					</div>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.setTransactionEnabled();
+        // 아래의 메소드를 사용하기 위해서는 트랜잭션 관리 상태를 반드시 활성화하셔야 합니다. 정상적으로 작동하지 않을 경우 개발자도구의 에러를 확인해주세요.
+        
+        fuckingNexacro.getInsertedTempDataList(); // 원본 데이터목록에서 존재하지 않았던 데이터 목록을 배열로 획득합니다.
+        fuckingNexacro.getUpdatedTempDataList(); // 원본 데이터목록에서 존재하되 키-값 형태가 완전히 일치하지 않은 데이터 목록을 배열로 획득합니다.
+        fuckingNexacro.getDeletedTempDataList(); // 원본 데이터목록에 존재하는데 데이터그리드에서 찾을 수 없는 원본 데이터 목록을 배열로 획득합니다.
+        fuckingNexacro.getUnsavedTempDataList(); // 원본 데이터목록과 비교하여 추가/수정/삭제 변동사항이 있는 모든 데이터 목록을 배열로 획득합니다.
+        
+        fuckingNexacro.commit(); // 현재 관리/편집 중인 데이터를 저장합니다. unsaved 체크가 새로 저장된 데이터를 기준으로 이루어지며, 롤백 호출 시 가장 마지막에 커밋된 데이터로 복구됩니다.
+        fuckingNexacro.rollback(); // 현재 관리/편집 중인 데이터를 저장하지 않고 원본으로 데이터들을 복구합니다.
+        
+        if(fuckingNexacro.getUnsavedTempDataList().length > 0 && confirm("저장하시겠습니까?")) {} // 수정된 데이터가 존재할 경우 이렇게 경고를 제공할 수 있습니다.
+    });
+</script>
+</xmp></code></pre>
+					<div id="commitrollback"></div>
+					<script>
+						let commitrollback = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							commitrollback = new FuckingNexacro({
+								target: document.querySelector("#commitrollback"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							commitrollback.setTransactionEnabled();
+						});
+					</script><br/>
+					<div class="row">
+						<button class="col s12 m3 btn waves-effect waves-light deep-purple lighten-1" onclick="alert(JSON.stringify(commitrollback.getInsertedTempDataList()));">삽입된 데이터</button>
+						<button class="col s12 m3 btn waves-effect waves-light deep-purple lighten-2" onclick="alert(JSON.stringify(commitrollback.getUpdatedTempDataList()));">편집된 데이터</button>
+						<button class="col s12 m3 btn waves-effect waves-light deep-purple lighten-3" onclick="alert(JSON.stringify(commitrollback.getDeletedTempDataList()));">삭제된 데이터</button>
+						<button class="col s12 m3 btn waves-effect waves-light deep-purple lighten-4" onclick="alert(JSON.stringify(commitrollback.getUnsavedTempDataList()));">수정된 모든 데이터</button>
+						<button class="col s12 m3 btn waves-effect waves-light materialize-red" onclick="commitrollback.rollback();">롤백</button>
+						<button class="col s12 m3 btn waves-effect waves-light grey" onclick="if(commitrollback.getUnsavedTempDataList().length > 0 && confirm('저장하시겠습니까?')) { commitrollback.commit(); }">확인 후 커밋</button>
+						<button class="col s12 m3 btn waves-effect waves-light grey lighten-2 black-text" onclick="commitrollback.commit();">바로 커밋</button>
+						<button class="col s12 m3 btn-flat waves-effect waves-light" onclick="alert(JSON.stringify(commitrollback.getDataList()));">데이터 목록 획득</button>
+					</div>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터가 많을 수록 성능저하가 뚜렷하게 저하됩니다.</b><br/>
+						<span>해당 기능을 사용하게 될 경우 100건 당 1 페이지 단위로 페이징 처리를 구현하여서 사용하시는 것을 권장합니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;데이터 추가 및 삭제는 키보드 insert/delete 키를 통해서도 가능합니다.</b><br/>
+						<span class="strike">버튼으로 만들기 귀찮아서 안내문구 붙임</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="02_commit_validator" class="index scrollspy">
+                    <h3>커밋 검사기</h3>
+					<p>데이터의 유효성 기준을 데이터그리드에 등록합니다. 유효성 기준을 만족하지 못한 데이터가 있을 경우 커밋을 차단합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;트랜잭션 관련 기능은 성능을 기대하기 어렵습니다.</b><br/>
+						<span>향후 개선 가능성이 없으며 여건에 따라 사용하시되 필요성이 요구되는 경우에는 다른 방법을 검토하시는 것을 진지하게 권고드립니다.</span>
+					</div>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.setTransactionEnabled();
+        // 아래의 메소드를 사용하기 위해서는 트랜잭션 관리 상태를 반드시 활성화하셔야 합니다. 정상적으로 작동하지 않을 경우 개발자도구의 에러를 확인해주세요.
+        
+        fuckingNexacro.setCommitValidator(dataItem => dataItem.username?.length > 4);
+    });
+</script>
+</xmp></code></pre>
+					<div id="commitvalidator"></div>
+					<script>
+						let commitvalidator = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							commitvalidator = new FuckingNexacro({
+								target: document.querySelector("#commitvalidator"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							commitvalidator.setTransactionEnabled();
+							commitvalidator.setCommitValidator(dataItem => dataItem.username?.length > 4);
+						});
+					</script><br/>
+					<div class="row">
+						<button class="col s12 m12 btn waves-effect waves-light deep-purple" onclick="commitvalidator.commit();">커밋 (개발자 도구에서 오류 확인)</button>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;에러처리는&nbsp;<code class="materialize-red-text">if/else</code>&nbsp;가 아닌&nbsp;<code class="materialize-red-text">try/catch</code>&nbsp;를 이용해서 처리하셔야 합니다.</b><br/>
+						<span>if/else 를 통한 에러처리방법은 지원할 예정이 없습니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;데이터그리드 생성 시 지정한 keyColumn 열을 포함, 읽기전용 열을 커밋 검사기에서 검사하도록 할 경우 커밋이 불가능합니다.</b><br/>
+						<span>특히 데이터그리드 생성 시 지정한 keyColumn 은 원치않더라도 무조건 읽기전용 속성이 걸리므로 커밋 검사기에 포함되지 않도록 유의바랍니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;기준조건을 만족하지 못하는 데이터의 레코드에 짙은 마젠타 색으로 칠해지는 것은 데이터그리드 기본 스타일이 아닌 CSS 스타일링입니다.</b><br/>
+						<span>검사기 기준조건을 만족하지 못하는 데이터에는&nbsp;<code class="materialize-red-text">.fn_row</code>&nbsp;엘리먼트에&nbsp;<code class="materialize-red-text">.fn_row_invalid</code>&nbsp;클래스가 추가됩니다.&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>에서&nbsp;<code class="materialize-red-text">.fn_row_invalid</code>&nbsp;스타일을 확인해주세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="03_delete_invalid" class="index scrollspy">
+                    <h3>유효하지 않은 데이터 일괄삭제</h3>
+					<p><a href="#02_commit_validator">커밋 검사기</a>가 등록된 상태에서 기준조건을 충족하지 못하는 모든 데이터를 일괄 삭제합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;트랜잭션 관련 기능은 성능을 기대하기 어렵습니다.</b><br/>
+						<span>향후 개선 가능성이 없으며 여건에 따라 사용하시되 필요성이 요구되는 경우에는 다른 방법을 검토하시는 것을 진지하게 권고드립니다.</span>
+					</div>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username" }, 
+                    { "idx": 1, "username": "usernam" }, 
+                    { "idx": 2, "username": "userna" }, 
+                    { "idx": 3, "username": "usern" }, 
+                    { "idx": 4, "username": "user" }, 
+                    { "idx": 5, "username": "use" }, 
+                    { "idx": 6, "username": "us" }, 
+                    { "idx": 7, "username": "u" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.setTransactionEnabled();
+        // 아래의 메소드를 사용하기 위해서는 트랜잭션 관리 상태를 반드시 활성화하셔야 합니다. 정상적으로 작동하지 않을 경우 개발자도구의 에러를 확인해주세요.
+        
+        fuckingNexacro.setCommitValidator(dataItem => dataItem.username?.length > 4);
+        fuckingNexacro.deleteInvalidAllDataList(); // 기준조건(username 길이 > 4)을 충족하지 못하는 모든 데이터 일괄삭제
+    });
+</script>
+</xmp></code></pre>
+					<div id="deleteinvalid"></div>
+					<script>
+						let deleteinvalid = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							deleteinvalid = new FuckingNexacro({
+								target: document.querySelector("#deleteinvalid"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username" }, 
+										{ "idx": 1, "username": "usernam" }, 
+										{ "idx": 2, "username": "userna" }, 
+										{ "idx": 3, "username": "usern" }, 
+										{ "idx": 4, "username": "user" }, 
+										{ "idx": 5, "username": "use" }, 
+										{ "idx": 6, "username": "us" }, 
+										{ "idx": 7, "username": "u" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							deleteinvalid.setTransactionEnabled();
+							deleteinvalid.setCommitValidator(dataItem => dataItem.username?.length > 4);
+						});
+					</script><br/>
+					<div class="row">
+						<button class="col s12 m6 btn waves-effect waves-light deep-purple" onclick="deleteinvalid.deleteInvalidAllDataList();">기준조건 미달 데이터 삭제 (롤백 가능)</button>
+						<button class="col s12 m6 btn waves-effect waves-light materialize-red" onclick="deleteinvalid.rollback();">롤백</button>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;트랜잭션 모드가 비활성화 상태일 경우에는 아무런 효과 없이 종료됩니다.</b><br/>
+						<span>개발자 도구에서도 에러를 표시하지 않으므로 유의바랍니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;데이터그리드 생성 시 지정한 keyColumn 열을 포함, 읽기전용 열을 커밋 검사기에서 검사하도록 할 경우 의도치 않은 데이터가 삭제될 수 있습니다.</b><br/>
+						<span>특히 데이터그리드 생성 시 지정한 keyColumn 은 원치않더라도 무조건 읽기전용 속성이 걸리므로 커밋 검사기에서 기준조건으로 판단되지 않도록 유의바랍니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

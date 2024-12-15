@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">chips</span>&nbsp;버튼</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_css_example" class="index scrollspy">
+                    <h3>데이터 건당 버튼 제공하기</h3>
+					<p>단순히 값을 수정하는 것 이상의 기능이 요구될 때는 사용자 지정 심층기능을 실행하기 위한 버튼을 생성할 수 있습니다.</p>
+					<p>props.button 을 통해 데이터 열이 아닌 기능 열을 신규로 추가하여 제공합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    let fuckingNexacro;
+
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 120, type: "number", fixed: false, format: null }, 
+                    { key: "username", text: "사용자명", width: 240, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx:  0, username: "username00" }, 
+                    { idx:  1, username: "username01" }, 
+                    { idx:  2, username: "username02" }, 
+                    { idx:  3, username: "username03" }, 
+                    { idx:  4, username: "username04" }, 
+                    { idx:  5, username: "username05" }, 
+                    { idx:  6, username: "username06" }, 
+                    { idx:  7, username: "username07" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32, 
+                button: {
+                    header: "버튼", 
+                    text: dataItem => (("" + dataItem["username"]) || "") + " 의 설정", 
+                    class: dataItem => "btn_flat waves-effect waves-light", 
+                    width: 160, 
+                    fixed: true, 
+                    visible: dataItem => true, 
+                    enable: dataItem => true, 
+                    onclick: dataItem => { alert((("" + dataItem["username"]) || "") + " 의 기능을 제공하기 위한 콜백 함수입니다."); } 
+                }
+            }
+        });
+    });
+</script>
+</xmp></code></pre>
+				<div id="button_example"></div>
+
+				<script>
+					let button_example;
+
+					window.addEventListener("DOMContentLoaded", () => {
+						button_example = new FuckingNexacro({
+							target: document.querySelector("#button_example"), 
+							props: {
+								column: [
+									{ key: "idx", text: "일련번호", width: 120, type: "number", fixed: false, format: null }, 
+									{ key: "username", text: "사용자명", width: 240, type: "string", fixed: false, format: null }
+								], 
+								data: [
+									{ idx:  0, username: "username00" }, 
+									{ idx:  1, username: "username01" }, 
+									{ idx:  2, username: "username02" }, 
+									{ idx:  3, username: "username03" }, 
+									{ idx:  4, username: "username04" }, 
+									{ idx:  5, username: "username05" }, 
+									{ idx:  6, username: "username06" }, 
+									{ idx:  7, username: "username07" }
+								], 
+								keyColumn: "idx", 
+								width: "100%", 
+								height: 200, 
+								rowHeight: 32, 
+								button: {
+									header: "버튼", 
+									text: dataItem => (("" + dataItem["username"]) || "") + " 의 설정", 
+									class: dataItem => "btn_flat waves-effect waves-light", 
+									width: 160, 
+									fixed: true, 
+									visible: dataItem => true, 
+									enable: dataItem => true, 
+									onclick: dataItem => { alert((("" + dataItem["username"]) || "") + " 의 기능을 제공하기 위한 콜백 함수입니다."); } 
+								}
+							}
+						});
+					});
+				</script>
+				<div class="col s12 card-panel hoverable orange lighten-4">
+					<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;버튼 열은 오로지 1개만 제공되며, 다수의 버튼을 등록할 수 없습니다.</b><br/>
+					<span>다수의 기능이 필요할 경우에는 팝업과 같이 버튼 클릭을 통한 다음 여러 기능 중 하나를 선택할 수 있도록 별도의 구현이 필요합니다.</span>
+				</div>
+				<div class="col s12 card-panel hoverable green lighten-4">
+					<b class="valign-wrapper"><span class="material-symbols-sharp">check</span>&nbsp;절대로 암기하지 마시고 필요할 경우 문서를 참고하여 차분히 사용하시는 것이 좋습니다.</b><br/>
+					<span class="strike">이거 암기해서 잘 사용한다고 상여금 세제곱 네제곱으로 나오는거 아닙니다.</span>
+				</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="01_apply" class="index scrollspy">
+					<h3>응용하기</h3>
+					<p>버튼의 콜백함수를 지정하고 이를 이용하여 다른 이벤트를 촉발시키는 예시입니다.</p>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;테스트 데이터로&nbsp;<a href="https://dummyjson.com/">https://dummyjson.com/</a>&nbsp;의 데이터를 사용하였습니다.</b>
+						<span></span>
+					</div>
+<pre><code class="language-html"><xmp>
+<div style="display:flex;">
+    <div id="example0" style="width:48%;margin-right:2%;"></div>
+    <div id="example1" style="width:48%;margin-right:2%;"></div>
+</div>
+
+<script>
+    let example0;
+    let example1;
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        example0 = new FuckingNexacro({
+            target: document.querySelector("#example0"), 
+            props: {
+                column: [
+                    { key: "id", text: "등록번호", width: 120, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 240, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [], 
+                keyColumn: "id", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 24, 
+                button: {
+                    header: "게시이력", 
+                    text: dataItem => (dataItem["username"]) + " 의 게시글 보기", 
+                    class: dataItem => "btn-flat waves-effect waves-light", 
+                    width: 160, 
+                    fixed: true, 
+                    visible: dataItem => true, 
+                    enable: dataItem => true, 
+                    onclick: dataItem => fetch("https://dummyjson.com/posts/user/" + dataItem["id"]).then(res => res.json()).then(resultList => example1.setDataList(resultList["posts"]))
+                }
+            }
+        });
+        example1 = new FuckingNexacro({
+            target: document.querySelector("#example1"), 
+            props: {
+                column: [
+                    { key: "id", text: "포스트 등록번호", width: 120, type: "number", fixed: false, format: null }, 
+                    { key: "title", text: "포스트 제목", width: 240, type: "string", fixed: false, format: value => value }, 
+                    { key: "tags", text: "태그", width: 200, type: "string", fixed: false, format: value => value?.join(", ") || "" }, 
+                    { key: "views", text: "조회수", width: 120, type: "number", fixed: false, format: value => value }
+                ], 
+                data: [], 
+                keyColumn: "id", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 24
+            }
+        });
+    });
+</script>
+</xmp></code></pre>
+				<div style="display:flex">
+					<div id="mainGrid" style="width:48%;margin-right:2%;"></div>
+					<div id="subGrid" style="width:48%;margin-right:2%;"></div>
+				</div>
+
+				<script>
+					let mainGrid;
+					let rightGrid;
+
+					window.addEventListener("DOMContentLoaded", () => {
+						mainGrid = new FuckingNexacro({
+							target: document.querySelector("#mainGrid"), 
+							props: {
+								column: [
+									{ key: "id", text: "등록번호", width: 120, type: "number", fixed: true, format: null }, 
+									{ key: "username", text: "사용자명", width: 240, type: "string", fixed: false, format: value => value }
+								], 
+								data: [], 
+								keyColumn: "id", 
+								width: document.querySelector("#mainGrid").offsetWidth, 
+								height: 240, 
+								rowHeight: 24, 
+								button: {
+									header: "게시이력", 
+									text: dataItem => (dataItem["username"]) + " 의 게시글 보기", 
+									class: dataItem => "btn-flat waves-effect waves-light", 
+									width: 160, 
+									fixed: true, 
+									visible: dataItem => true, 
+									enable: dataItem => true, 
+									onclick: dataItem => fetch("https://dummyjson.com/posts/user/" + dataItem["id"]).then(res => res.json()).then(resultList => subGrid.setDataList(resultList["posts"]))
+								}
+							}
+						});
+						subGrid = new FuckingNexacro({
+							target: document.querySelector("#subGrid"), 
+							props: {
+								column: [
+									{ key: "id", text: "포스트 등록번호", width: 120, type: "number", fixed: false, format: null }, 
+									{ key: "title", text: "포스트 제목", width: 240, type: "string", fixed: false, format: value => value }, 
+									{ key: "tags", text: "태그", width: 200, type: "string", fixed: false, format: value => value?.join(", ") || "" }, 
+									{ key: "views", text: "조회수", width: 120, type: "number", fixed: false, format: value => value }
+								], 
+								data: [], 
+								keyColumn: "id", 
+								width: document.querySelector("#subGrid").offsetWidth, 
+								height: 240, 
+								rowHeight: 24
+							}
+						});
+						fetch("https://dummyjson.com/users").then(res => res.json()).then(resultList => mainGrid.setDataList(resultList["users"]));
+					});
+				</script>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

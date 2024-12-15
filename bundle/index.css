@@ -1,0 +1,57 @@
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: static;
+    opacity: 1;
+	pointer-events: auto;
+}
+
+.sidenav .divider {
+	margin: 0;
+}
+
+.btn:hover,
+.btn-large:hover,
+.btn-small:hover {
+	background-color: #BFBFBF;
+}
+
+body:not(.sidenav-on) ul.sidenav {
+	display: none;
+}
+
+body.sidenav-on header,
+body.sidenav-on main,
+body.sidenav-on footer {
+	padding-left: 300px;
+}
+
+blockquote {
+    margin: 20px 0;
+    padding-left: 1.5rem;
+    border-left: 5px solid #777;
+}
+
+ul.sidenav li a.active {
+	background-color: #DDD;
+	transition: background-color 0.2s;
+}
+
+.material-symbols-sharp {
+	vertical-align: middle;
+}
+
+.strike {
+	color: gray;
+	text-decoration: line-through;
+}
+
+@media only screen and (max-width : 992px) {
+	body.sidenav-on header,
+	body.sidenav-on main,
+	body.sidenav-on footer {
+		padding-left: 0;
+	}
+
+	body.sidenav-on .sidenav.sidenav-fixed {
+		transform: translateX(0);
+	}
+}

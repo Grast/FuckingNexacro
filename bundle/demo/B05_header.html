@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">subheader</span>&nbsp;헤더 설정</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_header_visibility" class="index scrollspy">
+                    <h3>헤더 보이기/숨기기</h3>
+					<p>헤더를 보이지 않게 숨길 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.showHeader(); // 헤더 보임
+fuckingNexacro.hideHeader(); // 헤더 숨김
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    let fuckingNexacro;
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx: 0, username: "username000" }, 
+                    { idx: 1, username: "username001" }, 
+                    { idx: 2, username: "username010" }, 
+                    { idx: 3, username: "username011" }, 
+                    { idx: 4, username: "" }, 
+                    { idx: 5, username: "username101" }, 
+                    { idx: 6, username: "username110" }, 
+                    { idx: 7, username: "username111" } 
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.hideHeader();
+    });
+</script>
+</xmp></code></pre>
+					<div id="header"></div>
+
+					<script src="준비된_번들_js파일"></script>
+					<script>
+						let header;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							header = fuckingNexacro = new FuckingNexacro({
+								target: document.querySelector("#header"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000" }, 
+										{ idx: 1, username: "username001" }, 
+										{ idx: 2, username: "username010" }, 
+										{ idx: 3, username: "username011" }, 
+										{ idx: 4, username: "" }, 
+										{ idx: 5, username: "username101" }, 
+										{ idx: 6, username: "username110" }, 
+										{ idx: 7, username: "username111" } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 200, 
+									rowHeight: 32
+								}
+							});
+							header.hideHeader();
+						});
+					</script><br/>
+				<div class="row">
+					<button type="button" class="col s6 btn waves-effect waves-light deep-purple" onclick='header.showHeader()'>헤더 보이기</button>
+					<button type="button" class="col s6 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='header.hideHeader()'>헤더 숨기기</button>
+				</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="01_column_doubleclick_event" class="index scrollspy">
+                    <h3>헤더 더블클릭 이벤트 지정하기</h3>
+					<p>헤더의 열을 더블클릭할 때 발동할 이벤트를 지정할 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setOnColumnDoubleClick(columnItem => { /* event function body */ }); // 헤더 보임
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx: 0, username: "username000" }, 
+                    { idx: 1, username: "username001" }, 
+                    { idx: 2, username: "username010" }, 
+                    { idx: 3, username: "username011" }, 
+                    { idx: 4, username: "" }, 
+                    { idx: 5, username: "username101" }, 
+                    { idx: 6, username: "username110" }, 
+                    { idx: 7, username: "username111" } 
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.setOnColumnDoubleClick(columnItem => alert(columnItem["text"] + "(" + columnItem["key"] + ") 열의 헤더 더블클릭 이벤트입니다."));
+    });
+</script>
+</xmp></code></pre>
+					<div id="columnDoubleClick"></div>
+
+					<script src="준비된_번들_js파일"></script>
+					<script>
+						let columnDoubleClick;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							columnDoubleClick = fuckingNexacro = new FuckingNexacro({
+								target: document.querySelector("#columnDoubleClick"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000" }, 
+										{ idx: 1, username: "username001" }, 
+										{ idx: 2, username: "username010" }, 
+										{ idx: 3, username: "username011" }, 
+										{ idx: 4, username: "" }, 
+										{ idx: 5, username: "username101" }, 
+										{ idx: 6, username: "username110" }, 
+										{ idx: 7, username: "username111" } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 200, 
+									rowHeight: 32
+								}
+							});
+							columnDoubleClick.setOnColumnDoubleClick(columnItem => alert(columnItem["text"] + "(" + columnItem["key"] + ") 열의 헤더 더블클릭 이벤트입니다."));
+						});
+					</script><br/>
+				<div class="col s12 card-panel hoverable orange lighten-4">
+					<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;헤더 셀에만 이벤트가 적용됩니다.</b><br/>
+					<span>데이터 셀의 더블클릭 이벤트가 아닌 헤더 셀의 더블클릭 이벤트에 한합니다.</span>
+				</div>
+				<div class="col s12 card-panel hoverable green lighten-4">
+					<b class="valign-wrapper"><span class="material-symbols-sharp">check</span>&nbsp;해당 기능은 특정 열을 기준으로 데이터(레코드)를 정렬하기 위한 기능에서 주로 사용됩니다.</b><br/>
+					<span>데이터 정렬 문서를 참조해주세요.</span>
+				</div>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

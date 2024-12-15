@@ -1,0 +1,1615 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">list</span>&nbsp;데이터 다루기</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_setdatalist" class="index scrollspy">
+                    <h3>데이터 넣기</h3>
+					<p>데이터그리드에서 취급하기 위한 데이터들을 넣습니다. 넣은 데이터들은 데이터그리드를 통해 편집할 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable green lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">check</span>&nbsp;생성자 호출 시에도 데이터 넣기 기능은 포함되어있습니다.</b><br/>
+						<span>데이터그리드를 초기화하는 생성자 호출에도 데이터를 넣는 과정이 포함되어있으며, 해당 페이지에서 안내드리는 방법은 생성자까지 호출해서 이미 만들어진 데이터그리드를 재사용하는 방법과 맥락을 같이 합니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터그리드가 "읽기전용" 상태인 경우에는 setDataList 를 호출할 수 없습니다.</b><br/>
+						<span>데이터그리드 읽기전용/쓰기모드는&nbsp;<a href="./B00_begin.html#01_readonly">여기</a>&nbsp;를 참고해주세요. getDataList 는 "읽기전용" 상태라도 정상작동합니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setDataList([
+    { "keyColumn": 1 }, // 굳이 keyColumn 으로 지정되어야 할 필요는 없고 자유 객체형식
+    { "keyColumn": 2 }, 
+    { "keyColumn": 3 }, 
+    ...
+]); // 배열을 전달함으로써 데이터그리드에 데이터가 추가됨
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    let fuckingNexacro = null;
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setDataList([
+            { "idx": 0, "username": "username000" }, 
+            { "idx": 1, "username": "username001" }, 
+            { "idx": 2, "username": "username002" }, 
+            { "idx": 3, "username": "username003" }, 
+            { "idx": 4, "username": "username004" }, 
+            { "idx": 5, "username": "username005" }, 
+            { "idx": 6, "username": "username006" }, 
+            { "idx": 7, "username": "username007" }
+        ]);
+    });
+</script>
+</xmp></code></pre>
+					<div id="setdatalist"></div>
+					<script>
+						let setdatalist = null;
+						const setdatalistSample = [
+							{ "idx": 0, "username": "username000" }, 
+							{ "idx": 1, "username": "username001" }, 
+							{ "idx": 2, "username": "username002" }, 
+							{ "idx": 3, "username": "username003" }, 
+							{ "idx": 4, "username": "username004" }, 
+							{ "idx": 5, "username": "username005" }, 
+							{ "idx": 6, "username": "username006" }, 
+							{ "idx": 7, "username": "username007" }
+						];
+
+						window.addEventListener("DOMContentLoaded", () => {
+							setdatalist = new FuckingNexacro({
+								target: document.querySelector("#setdatalist"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 btn deep-purple waves-effect waves-light" onclick="setdatalist.setDataList(setdatalistSample);">샘플데이터로 setDataList 호출하기</button>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="01_getdatalist" class="index scrollspy">
+					<h3>데이터 꺼내기</h3>
+					<p>데이터그리드에서 관리/편집 중인 데이터를 모두 획득합니다. 데이터를 획득하더라도 관리/편집 중인 데이터는 모두 유지됩니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.getDataList(); // 관리 and 편집중인 데이터를 배열로 획득함</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+	window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+
+        fuckingNexacro.getDataList();
+    });
+</script>
+</xmp></code></pre>
+					<div id="getdatalist"></div>
+					<script>
+						let getdatalist = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							getdatalist = new FuckingNexacro({
+								target: document.querySelector("#getdatalist"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 btn deep-purple waves-effect waves-light" onclick="alert(JSON.stringify(getdatalist.getDataList()));">데이터 꺼내기</button>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="02_getcheckeddatalist" class="index scrollspy">
+					<h3>체크된 데이터 꺼내기/설정하기</h3>
+					<p>데이터그리드에서 관리/편집 중인 데이터 중 체크박스에 체크가 된 데이터를 모두 획득합니다. 데이터를 획득하더라도 관리/편집 중인 데이터는 모두 유지됩니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.getCheckedDataList(); // 관리 and 편집중인 데이터 중 체크박스에 체크가 된 데이터를 배열로 획득함
+fuckingNexacro.setCheckedDataList([{ "keyColumn": 1 }, { "keyColumn": 2 }, ...]); // 체크되어있는 모든 항목의 체크를 해제하고 아규먼트로 전달된 데이터만 체크상태가 되도록 설정
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+    setcheckeddatalistSample = [
+        { "idx": 0 }, 
+        { "idx": 2 }, 
+        { "idx": 4 }, 
+        { "idx": 6 }
+    ];
+	
+	window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+
+        fuckingNexacro.getCheckedDataList();
+        fuckingNexacro.setCheckedDataList(setcheckeddatalistSample); // 특정 항목만 체크 설정하기
+        fuckingNexacro.setCheckedDataList([]); // 모든 항목의 체크 해제하기
+        fuckingNexacro.setCheckedDataList(fuckingNexacro.getDataList()); // 모든 항목의 체크 설정하기
+    });
+</script>
+</xmp></code></pre>
+					<div id="getcheckeddatalist"></div>
+					<script>
+						let getcheckeddatalist = null;
+						let setcheckeddatalistSample = [
+							{ "idx": 0 }, 
+							{ "idx": 2 }, 
+							{ "idx": 4 }, 
+							{ "idx": 6 }
+						];
+
+						window.addEventListener("DOMContentLoaded", () => {
+							getcheckeddatalist = new FuckingNexacro({
+								target: document.querySelector("#getcheckeddatalist"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m6 btn-flat waves-effect waves-light" onclick="getcheckeddatalist.hideCheckboxColumn();">체크박스 열 숨기기</button>
+						<button class="col s12 m6 btn grey waves-effect waves-light" onclick="getcheckeddatalist.showCheckboxColumn();">체크박스 열 보이기</button>
+						<button class="col s12 m6 btn deep-purple waves-effect waves-light" onclick="getcheckeddatalist.setCheckedDataList(getcheckeddatalist.getDataList());">모든 항목 체크하기</button>
+						<button class="col s12 m6 btn-flat waves-effect waves-light" onclick="getcheckeddatalist.setCheckedDataList([]);">모든 항목 체크 해제하기</button>
+						<button class="col s12 m6 btn-flat waves-effect waves-light" onclick="getcheckeddatalist.setCheckedDataList(setcheckeddatalistSample);">일련번호가 짝수인 데이터 체크하기</button>
+						<button class="col s12 m6 btn deep-purple waves-effect waves-light" onclick="alert(JSON.stringify(getcheckeddatalist.getCheckedDataList()));">체크된 데이터 꺼내기</button>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;hideCheckboxColumn 등으로 체크박스가 보여지지 않을 때는 데이터 및 함수의 눈버깅이 극도로 어려워질 수 있습니다.</b><br/>
+						<span>데이터를 체크박스로 특정한 다음 hideCheckboxColumn() 을 호출해 숨기더라도 체크박스가 활성화된 항목은 정상적으로 꺼내지지만 체크박스가 보이지 않음으로 인해 어째서 이 데이터가 반환되는가 추적을 할 수 없는 상황이 발생할 수 있습니다. <span class="strike">헛짓거리</span>&nbsp;뻘짓에 주의바랍니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="03_getselecteddatalist" class="index scrollspy">
+					<h3>선택된 데이터 꺼내기/설정하기</h3>
+					<p>데이터그리드에서 관리/편집 중인 데이터 중 선택된 데이터들을 모두 획득합니다. 데이터를 획득하더라도 관리/편집 중인 데이터는 모두 유지됩니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.getSelectedDataList(); // 현재 데이터그리드에 선택된 데이터를 배열로 획득함
+fuckingNexacro.setSelectedDataList([{ "keyColumn": 1 }, { "keyColumn": 2 }, ...]); // 선택되어있는 모든 항목의 선택을 해제하고 아규먼트로 전달된 데이터만 선택상태가 되도록 설정
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+    setselecteddatalistSample = [
+        { "idx": 1 }, 
+        { "idx": 3 }, 
+        { "idx": 5 }, 
+        { "idx": 7 }
+    ];
+	
+	window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+
+        fuckingNexacro.getSelectedDataList();
+        fuckingNexacro.setSelectedDataList(setselecteddatalistSample); // 특정 항목만 선택 설정하기
+        fuckingNexacro.setSelectedDataList([]); // 모든 항목의 선택 해제하기
+        fuckingNexacro.setSelectedDataList(fuckingNexacro.getDataList()); // 모든 항목의 선택 설정하기
+    });
+</script>
+</xmp></code></pre>
+					<div id="getselecteddatalist"></div>
+					<script>
+						let getselecteddatalist = null;
+						let setselecteddatalistSample = [
+							{ "idx": 1 }, 
+							{ "idx": 3 }, 
+							{ "idx": 5 }, 
+							{ "idx": 7 }
+						];
+
+						window.addEventListener("DOMContentLoaded", () => {
+							getselecteddatalist = new FuckingNexacro({
+								target: document.querySelector("#getselecteddatalist"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m6 btn deep-purple waves-effect waves-light" onclick="getselecteddatalist.setSelectedDataList(getselecteddatalist.getDataList());">모든 항목 선택하기</button>
+						<button class="col s12 m6 btn-flat waves-effect waves-light" onclick="getselecteddatalist.setSelectedDataList([]);">모든 항목 선택 해제하기</button>
+						<button class="col s12 m6 btn-flat waves-effect waves-light" onclick="getselecteddatalist.setSelectedDataList(setselecteddatalistSample);">일련번호가 홀수인 데이터 선택하기</button>
+						<button class="col s12 m6 btn deep-purple waves-effect waves-light" onclick="alert(JSON.stringify(getselecteddatalist.getSelectedDataList()));">선택된 데이터 꺼내기</button>
+					</div>
+					<div class="col s12 card-panel hoverable green lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">check</span>&nbsp;FuckingNexacro 에서는 Ctrl 클릭을 통한 개별선택, Shift 클릭을 통한 연속선택을 지원합니다.</b><br/>
+						<span class="strike">???: 이런건 기본이잖아요? 만들기 쉽잖아요...? 안된다구요? 외않돼죠?</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="04_adddatalist" class="index scrollspy">
+					<h3>데이터 추가하기</h3>
+					<p>관리/편집 중인 데이터를 유지한 상태에서 최하단(마지막)에 지정된 데이터(혹은 데이터 목록)를 추가합니다.</p>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터그리드가 "읽기전용" 상태인 경우에는 addDataList 를 호출할 수 없습니다.</b><br/>
+						<span>데이터그리드 읽기전용/쓰기모드는&nbsp;<a href="./B00_begin.html#01_readonly">여기</a>&nbsp;를 참고해주세요.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.addDataList([
+    { "value": "new data 1" }, 
+    { "value": "new data 2" }, 
+    { "value": "new data 3" }
+]); // 데이터그리드에 들어있는 데이터를 보존하고 최하단(마지막)에 전달된 배열을 이어서 추가
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.addDataList([{}]);
+    });
+</script>
+</xmp></code></pre>
+					<div id="adddatalist"></div>
+					<script>
+						let adddatalist = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							adddatalist = new FuckingNexacro({
+								target: document.querySelector("#adddatalist"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m3 btn deep-purple darken-1 waves-effect waves-light" onclick="adddatalist.addDataList([{}]);">한 건 넣기 ([{}&nbsp;<span class="red-text">x 1</span>])</button>
+						<button class="col s12 m3 btn deep-purple waves-effect waves-light" onclick="adddatalist.addDataList([{}, {}]);">두 건 넣기 ([{}&nbsp;<span class="red-text text-darken-1">x 2</span>])</button>
+						<button class="col s12 m3 btn deep-purple lighten-1 waves-effect waves-light" onclick="adddatalist.addDataList([{}, {}, {}]);">세 건 넣기 ([{}&nbsp;<span class="red-text text-darken-2">x 3</span>])</button>
+						<button class="col s12 m3 btn materialize-red waves-effect waves-light" onclick="adddatalist.dropDataList();">초기화하기</button>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="05_mergedatalist" class="index scrollspy">
+					<h3>데이터 병합하기</h3>
+					<p class="strike">문질문질</p>
+					<p>데이터그리드 생성 시 지정한 keyColumn 을 기준으로, 이미 존재하는 데이터라면 수정되고 존재하지 않는 데이터라면 최하단(마지막)에 신규로 추가됩니다.</p>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터그리드가 "읽기전용" 상태인 경우에는 mergeDataList 를 호출할 수 없습니다.</b><br/>
+						<span>데이터그리드 읽기전용/쓰기모드는&nbsp;<a href="./B00_begin.html#01_readonly">여기</a>&nbsp;를 참고해주세요.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.mergeDataList([
+    { "keyColumn": 1, "column0": "new data to update when origin keyColumn item is already exists" }, 
+    { "keyColumn": 2, "column1": "new data to insert when origin keyColumn item is not exists" }, 
+    { "keyColumn": 3, "column2": "적폐척살" }
+]);
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.mergeDataList([
+            { "idx":  6, "username": "merged006" }, 
+            { "idx":  7, "username": "merged007" }, 
+            { "idx":  8, "username": "merged008" }, 
+            { "idx":  9, "username": "merged009" }
+        ]);
+    });
+</script>
+</xmp></code></pre>
+					<div id="mergedatalist"></div>
+					<script>
+						let mergedatalist = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							mergedatalist = new FuckingNexacro({
+								target: document.querySelector("#mergedatalist"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m3 btn deep-purple waves-effect waves-light" onclick='mergedatalist.mergeDataList([{ "idx": "6", "username": "merged006" }])'>6번 데이터 변경</button>
+						<button class="col s12 m3 btn deep-purple lighten-1 waves-effect waves-light" onclick='mergedatalist.mergeDataList([{ "idx": "7", "username": "merged007" }])'>7번 데이터 변경</button>
+						<button class="col s12 m3 btn deep-purple lighten-2 waves-effect waves-light" onclick='mergedatalist.mergeDataList([{ "idx": "8", "username": "merged008" }])'>8번 데이터 변경</button>
+						<button class="col s12 m3 btn deep-purple lighten-3 waves-effect waves-light" onclick='mergedatalist.mergeDataList([{ "idx": "9", "username": "merged009" }])'>9번 데이터 변경</button>
+					</div><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;mergeDataList 에 전달되어야 하는 아규먼트는 반드시 배열이어야 합니다.</b><br/>
+						<span>배열이 아닌 단건 객체로 전달해도 최대한 정상적으로 반영이 되도록 보조하나 권장되는 사용방법이 아니며, 객체를 전달함으로써 발생하는 기능하자 등의 오류에는 대응 및 보장을 하지 않습니다.</span><br/>
+						<span class="strike">mergeData<b class="red-text text-darken-1">List</b> 잖아...</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="06_bulkedit" class="index scrollspy">
+					<h3>데이터 일괄수정하기</h3>
+					<p>데이터그리드에 수정조건식을 지정하여 관리/편집중인 모든 데이터에 일괄 적용합니다. </p>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터그리드가 "읽기전용" 상태인 경우에는 bulkEdit 를 호출할 수 없습니다.</b><br/>
+						<span>데이터그리드 읽기전용/쓰기모드는&nbsp;<a href="./B00_begin.html#01_readonly">여기</a>&nbsp;를 참고해주세요.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.bulkEdit(dataItem => { return 수정된_dataItem; }); // 수정조건식(function)을 아규먼트로 전달, 수정조건식은 반드시 return 을 포함해야함
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+                    { key: "column0", text: "열0", width: 80, type: "string", fixed: false, format: null }, 
+                    { key: "column1", text: "열1", width: 80, type: "string", fixed: false, format: null }, 
+                    { key: "column2", text: "열2", width: 80, type: "string", fixed: false, format: null }, 
+                    { key: "column3", text: "열3", width: 80, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { "idx": 0, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+                    { "idx": 1, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+                    { "idx": 2, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+                    { "idx": 3, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+                    { "idx": 4, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+                    { "idx": 5, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+                    { "idx": 6, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+                    { "idx": 7, "column0": "", "column1": "", "column2": "", "column3": "" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.bulkEdit(dataItem => {
+            if(dataItem["idx"] % 2 == 0) {
+                dataItem["column0"] == "0000";
+                dataItem["column1"] == "0000";
+                dataItem["column2"] == "0000";
+                dataItem["column3"] == "0000";
+            }
+
+            return dataItem;
+        });
+        // 바로 아래의 데모와는 다른 함수입니다. 단순히 개념 이해용도로만 참고해주세요.
+        // 위 예시 함수는 idx 가 짝수인 데이터의 column0, column1, column2, column3 을 "0000" 으로 수정한다는 내용입니다.
+    });
+</script>
+</xmp></code></pre>
+					<div id="bulkedit"></div>
+					<script>
+						let bulkedit = null;
+						const bulkeditMapFunction0 = dataItem => {
+							dataItem["column0"] = "0000";
+							dataItem["column1"] = "0000";
+
+							return dataItem;
+						};
+						const bulkeditMapFunction1 = dataItem => {
+							dataItem["column2"] = "1111";
+							dataItem["column3"] = "1111";
+
+							return dataItem;
+						};
+						const bulkeditMapFunction2 = (dataItem, index) => {
+							if(index < 4) {
+								dataItem["column0"] = "2222";
+								dataItem["column1"] = "2222";
+								dataItem["column2"] = "2222";
+								dataItem["column3"] = "2222";
+							}
+
+							return dataItem;
+						};
+						const bulkeditMapFunction3 = (dataItem, index) => {
+							if(index >= 4) {
+								dataItem["column0"] = "3333";
+								dataItem["column1"] = "3333";
+								dataItem["column2"] = "3333";
+								dataItem["column3"] = "3333";
+							}
+
+							return dataItem;
+						};
+						const bulkeditMapFunction4 = dataItem => {};
+
+						window.addEventListener("DOMContentLoaded", () => {
+							bulkedit = new FuckingNexacro({
+								target: document.querySelector("#bulkedit"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "column0", text: "열0", width: 80, type: "string", fixed: false, format: null }, 
+										{ key: "column1", text: "열1", width: 80, type: "string", fixed: false, format: null }, 
+										{ key: "column2", text: "열2", width: 80, type: "string", fixed: false, format: null }, 
+										{ key: "column3", text: "열3", width: 80, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+										{ "idx": 1, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+										{ "idx": 2, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+										{ "idx": 3, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+										{ "idx": 4, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+										{ "idx": 5, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+										{ "idx": 6, "column0": "", "column1": "", "column2": "", "column3": "" }, 
+										{ "idx": 7, "column0": "", "column1": "", "column2": "", "column3": "" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m3 btn deep-purple waves-effect waves-light" onclick="bulkedit.bulkEdit(bulkeditMapFunction0);">좌측 2개열만 변경</button>
+						<button class="col s12 m3 btn deep-purple lighten-4 waves-effect waves-light" onclick="bulkedit.bulkEdit(bulkeditMapFunction1);">우측 2개열만 변경</button>
+						<button class="col s12 m3 btn deep-purple waves-effect waves-light" onclick="bulkedit.bulkEdit(bulkeditMapFunction2);">상단 4개행만 변경</button>
+						<button class="col s12 m3 btn deep-purple lighten-4 waves-effect waves-light" onclick="bulkedit.bulkEdit(bulkeditMapFunction3);">하단 4개행만 변경</button>
+						<button class="col s12 m12 btn materialize-red waves-effect waves-light" onclick="bulkedit.bulkEdit(bulkeditMapFunction4);">반환값이 없는 경우 오류 확인하기(개발자도구)</button>
+					</div><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;forEach 가 아닌 map 함수식을 요구하기 때문에 수정조건식을 지정할 때 반드시 parameter 로 입력받은 데이터를 return 해야 합니다.</b><br/>
+						<span>수정조건식이 return 없이 데이터를 반환하지 않는 경우 오류를 반환합니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="07_deletedatalist" class="index scrollspy">
+					<h3>데이터 삭제하기</h3>
+					<p>관리/편집 중인 데이터그리드에서 특정 데이터를 삭제합니다.</p>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터그리드가 "읽기전용" 상태인 경우에는 deleteDataList 를 호출할 수 없습니다.</b><br/>
+						<span>데이터그리드 읽기전용/쓰기모드는&nbsp;<a href="./B00_begin.html#01_readonly">여기</a>&nbsp;를 참고해주세요.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.deleteDataList([
+    { keyColumn: 1 }, 
+    { keyColumn: 2 }, 
+    { keyColumn: 3 }, 
+    ...
+]); // 삭제하고자 하는 항목의 keyColumn 값을 배열로 전달
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.deleteDataList([
+            { "idx":  0 }    // 굳이 idx 로 고정할 필요는 없고 keyColumn 값이 무엇인지만 규정되면 삭제 가능
+        ]);
+    });
+</script>
+</xmp></code></pre>
+					<div id="deletedatalist"></div>
+					<script>
+						let deletedatalist = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							deletedatalist = new FuckingNexacro({
+								target: document.querySelector("#deletedatalist"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m3 btn deep-purple waves-effect waves-light" onclick='deletedatalist.deleteDataList([{ "idx": 0 }])'>0번 데이터 삭제</button>
+						<button class="col s12 m3 btn deep-purple lighten-1 waves-effect waves-light" onclick='deletedatalist.deleteDataList([{ "idx": 1 }])'>1번 데이터 삭제</button>
+						<button class="col s12 m3 btn deep-purple lighten-2 waves-effect waves-light" onclick='deletedatalist.deleteDataList([{ "idx": 2 }])'>2번 데이터 삭제</button>
+						<button class="col s12 m3 btn deep-purple lighten-3 waves-effect waves-light" onclick='deletedatalist.deleteDataList([{ "idx": 3 }])'>3번 데이터 삭제</button>
+					</div><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;deleteDataList 에 전달되어야 하는 아규먼트는 반드시 배열이어야 합니다.</b><br/>
+						<span>mergeDataList 와는 달리 아규먼트를 객체 배열이 아닌 객체 단일로 보낼 경우 에러를 발생합니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="08_dropdatalist" class="index scrollspy">
+					<h3>데이터 전부 털어버리기</h3>
+					<p class="strike">개털림</p>
+					<p>관리/편집 중인 데이터그리드의 모든 데이터를 삭제합니다.</p>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터그리드가 "읽기전용" 상태인 경우에는 dropDataList 를 호출할 수 없습니다.</b><br/>
+						<span>데이터그리드 읽기전용/쓰기모드는&nbsp;<a href="./B00_begin.html#01_readonly">여기</a>&nbsp;를 참고해주세요.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.dropDataList(); // 모든 데이터를 삭제처리하여 빈 데이터그리드가 되도록 함.
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.dropDataList();
+    });
+</script>
+</xmp></code></pre>
+					<div id="dropdatalist"></div>
+					<script>
+						let dropdatalist = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							dropdatalist = new FuckingNexacro({
+								target: document.querySelector("#dropdatalist"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m12 btn materialize-red waves-effect waves-light" onclick='dropdatalist.dropDataList()'>데이터 전부 털어내기</button>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="09_sort" class="index scrollspy">
+					<h3>데이터 정렬하기</h3>
+					<p>데이터의 정렬기준 및 정렬규칙을 정하여 재배치합니다.</p>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터그리드가 "읽기전용" 상태인 경우에는 sort 를 호출할 수 없습니다.</b><br/>
+						<span>데이터그리드 읽기전용/쓰기모드는&nbsp;<a href="./B00_begin.html#01_readonly">여기</a>&nbsp;를 참고해주세요. "읽기전용"으로 설정하기 전 적용된 정렬은 유지됩니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.sort({ key: "..." }, "asc"); // 특정된 열을 기준으로 오름차순으로 정렬
+fuckingNexacro.sort("...", "asc"); // 별로 추천하지는 않음, 문제 발생시 배포자에게 책임 없음
+fuckingNexacro.sort({ key: "..." }, "desc"); // 특정된 열을 기준으로 내림차순으로 정렬
+fuckingNexacro.sort({ key: "..." }); // 특정된 열을 기준으로 반전정렬, 반전정렬 대상 열이 아닌 경우에는 오름차순으로 호출 고정
+fuckingNexacro.sort(null); // 모든 열 정렬기준을 해제, 디폴트로 keyColumn 이 오름차순으로 정렬됨
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }, 
+                    { key: "sort00", text: "정렬0", width: 100, type: "number", fixed: false, format: value => value }, 
+                    { key: "sort01", text: "정렬1", width: 100, type: "number", fixed: false, format: value => value }, 
+                    { key: "sort02", text: "정렬2", width: 100, type: "number", fixed: false, format: value => value }, 
+                    { key: "sort03", text: "정렬3", width: 100, type: "number", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000", "sort00": 0, "sort01": 7, "sort02": 0, "sort03": 0 }, 
+                    { "idx": 1, "username": "username001", "sort00": 3, "sort01": 5, "sort02": 2, "sort03": 6 }, 
+                    { "idx": 2, "username": "username002", "sort00": 6, "sort01": 3, "sort02": 4, "sort03": 1 }, 
+                    { "idx": 3, "username": "username003", "sort00": 1, "sort01": 1, "sort02": 6, "sort03": 7 }, 
+                    { "idx": 4, "username": "username004", "sort00": 4, "sort01": 6, "sort02": 7, "sort03": 2 }, 
+                    { "idx": 5, "username": "username005", "sort00": 7, "sort01": 4, "sort02": 5, "sort03": 4 }, 
+                    { "idx": 6, "username": "username006", "sort00": 2, "sort01": 2, "sort02": 3, "sort03": 3 }, 
+                    { "idx": 7, "username": "username007", "sort00": 5, "sort01": 0, "sort02": 1, "sort03": 5 }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.sort({ "key": "sort00" }, "asc"); // 키가 sort00 인 열을 기준으로 오름차순 정렬
+        fuckingNexacro.sort("sort00", "asc"); // 키가 sort00 인 열을 기준으로 오름차순 정렬 (비권장, 책임 안짐)
+        fuckingNexacro.sort({ "key": "sort00" }, "desc"); // 키가 sort00 인 열을 기준으로 내림차순 정렬
+        fuckingNexacro.sort({ "key": "sort00" }); // 키가 sort00 인 열을 기준으로 반전정렬, 기존 오름차순일 경우 내림차순으로, 기존 내림차순일 경우 오름차순으로 규칙을 바꿈
+        fuckingNexacro.sort(null); // 정렬 취소, keyColumn 오름차순으로 디폴트
+    });
+</script>
+</xmp></code></pre>
+					<div id="sort"></div>
+					<script>
+						let sort = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							sort = new FuckingNexacro({
+								target: document.querySelector("#sort"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }, 
+										{ key: "sort00", text: "정렬0", width: 100, type: "number", fixed: false, format: value => value }, 
+										{ key: "sort01", text: "정렬1", width: 100, type: "number", fixed: false, format: value => value }, 
+										{ key: "sort02", text: "정렬2", width: 100, type: "number", fixed: false, format: value => value }, 
+										{ key: "sort03", text: "정렬3", width: 100, type: "number", fixed: false, format: value => value }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000", "sort00": 0, "sort01": 7, "sort02": 0, "sort03": 0 }, 
+										{ "idx": 1, "username": "username001", "sort00": 3, "sort01": 5, "sort02": 2, "sort03": 6 }, 
+										{ "idx": 2, "username": "username002", "sort00": 6, "sort01": 3, "sort02": 4, "sort03": 1 }, 
+										{ "idx": 3, "username": "username003", "sort00": 1, "sort01": 1, "sort02": 6, "sort03": 7 }, 
+										{ "idx": 4, "username": "username004", "sort00": 4, "sort01": 6, "sort02": 7, "sort03": 2 }, 
+										{ "idx": 5, "username": "username005", "sort00": 7, "sort01": 4, "sort02": 5, "sort03": 4 }, 
+										{ "idx": 6, "username": "username006", "sort00": 2, "sort01": 2, "sort02": 3, "sort03": 3 }, 
+										{ "idx": 7, "username": "username007", "sort00": 5, "sort01": 0, "sort02": 1, "sort03": 5 }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m3 btn deep-purple waves-effect waves-light" onclick='sort.sort({ "key": "sort00" }, "asc");'>정렬0 기준으로 오름차순</button>
+						<button class="col s12 m3 btn purple waves-effect waves-light" onclick='sort.sort({ "key": "sort01" }, "asc");'>정렬1 기준으로 오름차순</button>
+						<button class="col s12 m3 btn deep-purple waves-effect waves-light" onclick='sort.sort({ "key": "sort02" }, "asc");'>정렬2 기준으로 오름차순</button>
+						<button class="col s12 m3 btn purple waves-effect waves-light" onclick='sort.sort({ "key": "sort03" }, "asc");'>정렬3 기준으로 오름차순</button>
+						<button class="col s12 m3 btn deep-purple lighten-2 waves-effect waves-light" onclick='sort.sort({ "key": "sort00" }, "desc");'>정렬0 기준으로 내림차순</button>
+						<button class="col s12 m3 btn purple lighten-2 waves-effect waves-light" onclick='sort.sort({ "key": "sort01" }, "desc");'>정렬1 기준으로 내림차순</button>
+						<button class="col s12 m3 btn deep-purple lighten-2 waves-effect waves-light" onclick='sort.sort({ "key": "sort02" }, "desc");'>정렬2 기준으로 내림차순</button>
+						<button class="col s12 m3 btn purple lighten-2 waves-effect waves-light" onclick='sort.sort({ "key": "sort03" }, "desc");'>정렬3 기준으로 내림차순</button>
+						<button class="col s12 m3 btn deep-purple lighten-4 waves-effect waves-light" onclick='sort.sort({ "key": "sort00" });'>정렬0 기준으로 반전정렬</button>
+						<button class="col s12 m3 btn purple lighten-4 waves-effect waves-light" onclick='sort.sort({ "key": "sort01" });'>정렬1 기준으로 반전정렬</button>
+						<button class="col s12 m3 btn deep-purple lighten-4 waves-effect waves-light" onclick='sort.sort({ "key": "sort02" });'>정렬2 기준으로 반전정렬</button>
+						<button class="col s12 m3 btn purple lighten-4 waves-effect waves-light" onclick='sort.sort({ "key": "sort03" });'>정렬3 기준으로 반전정렬</button>
+						<button class="col s12 m12 btn materialize-red waves-effect waves-light" onclick='sort.sort(null);' style="text-transform: unset;">정렬 취소 (디폴트: keyColumn 오름차순)</button>
+					</div><br/><br/><br/>
+					<div class="divider"></div><br/><br/><br/>
+					<p>열을 더블클릭해서 정렬되도록 응용하는것도 가능합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setOnColumnDoubleClick(columnItem => fuckingNexacro.sort(columnItem));
+// setOnColumnDoubleClick 메소드를 이용해 열 헤더의 더블클릭에 정렬기능을 붙이는 방법
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }, 
+                    { key: "sort00", text: "정렬0", width: 100, type: "number", fixed: false, format: value => value }, 
+                    { key: "sort01", text: "정렬1", width: 100, type: "number", fixed: false, format: value => value }, 
+                    { key: "sort02", text: "정렬2", width: 100, type: "number", fixed: false, format: value => value }, 
+                    { key: "sort03", text: "정렬3", width: 100, type: "number", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000", "sort00": 0, "sort01": 7, "sort02": 0, "sort03": 0 }, 
+                    { "idx": 1, "username": "username001", "sort00": 3, "sort01": 5, "sort02": 2, "sort03": 6 }, 
+                    { "idx": 2, "username": "username002", "sort00": 6, "sort01": 3, "sort02": 4, "sort03": 1 }, 
+                    { "idx": 3, "username": "username003", "sort00": 1, "sort01": 1, "sort02": 6, "sort03": 7 }, 
+                    { "idx": 4, "username": "username004", "sort00": 4, "sort01": 6, "sort02": 7, "sort03": 2 }, 
+                    { "idx": 5, "username": "username005", "sort00": 7, "sort01": 4, "sort02": 5, "sort03": 4 }, 
+                    { "idx": 6, "username": "username006", "sort00": 2, "sort01": 2, "sort02": 3, "sort03": 3 }, 
+                    { "idx": 7, "username": "username007", "sort00": 5, "sort01": 0, "sort02": 1, "sort03": 5 }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setOnColumnDoubleClick(columnItem => fuckingNexacro.sort(columnItem)); // 정렬규칙을 지정하지 않는 반전규칙 예제
+    });
+</script>
+</xmp></code></pre>
+					<div id="sortColumn"></div>
+					<script>
+						let sortColumn = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							sortColumn = new FuckingNexacro({
+								target: document.querySelector("#sortColumn"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }, 
+										{ key: "sort00", text: "정렬0", width: 100, type: "number", fixed: false, format: value => value }, 
+										{ key: "sort01", text: "정렬1", width: 100, type: "number", fixed: false, format: value => value }, 
+										{ key: "sort02", text: "정렬2", width: 100, type: "number", fixed: false, format: value => value }, 
+										{ key: "sort03", text: "정렬3", width: 100, type: "number", fixed: false, format: value => value }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000", "sort00": 0, "sort01": 7, "sort02": 0, "sort03": 0 }, 
+										{ "idx": 1, "username": "username001", "sort00": 3, "sort01": 5, "sort02": 2, "sort03": 6 }, 
+										{ "idx": 2, "username": "username002", "sort00": 6, "sort01": 3, "sort02": 4, "sort03": 1 }, 
+										{ "idx": 3, "username": "username003", "sort00": 1, "sort01": 1, "sort02": 6, "sort03": 7 }, 
+										{ "idx": 4, "username": "username004", "sort00": 4, "sort01": 6, "sort02": 7, "sort03": 2 }, 
+										{ "idx": 5, "username": "username005", "sort00": 7, "sort01": 4, "sort02": 5, "sort03": 4 }, 
+										{ "idx": 6, "username": "username006", "sort00": 2, "sort01": 2, "sort02": 3, "sort03": 3 }, 
+										{ "idx": 7, "username": "username007", "sort00": 5, "sort01": 0, "sort02": 1, "sort03": 5 }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							sortColumn.setOnColumnDoubleClick(columnItem => sortColumn.sort(columnItem));
+						});
+					</script><br/>
+					<div class="col s12 card-panel hoverable green lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">check</span>&nbsp;열을 더블클릭해보세요.</b><br/>
+						<span>새로운 정렬기준일 경우에는 최초 오름차순, 반복실행 시 내림차순과 오름차순을 반복하는 반전정렬이 실행됩니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;기본 기능이 아닙니다!!</b><br/>
+						<span>setOnColumnDoubleClick 은 sort 뿐만이 아니라 이벤트 등록 메소드로써 다른 이벤트를 등록하여 사용할 수도 있습니다. 열 헤더 더블클릭이 바로 데이터 정렬 기능이 실행되도록 기본기능으로 포함시킬 예정은 없습니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="10_setdatafilter" class="index scrollspy">
+					<h3>조건부 데이터 숨기기</h3>
+					<p>관리/편집 중인 데이터그리드에서 조건식에 만족하지 못하는 데이터들을 숨깁니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setDataFilter(dataItem => dataItem["idx"] % 2 == 0); // 조건식을 지정하여 조건식을 만족하지 못하는 데이터들을 숨김, 조건식은 idx 가 짝수인 데이터만을 노출하고 나머지는 숨기는 예제
+fuckingNexacro.setDataFilter(null); // 조건식 해제, 모든 데이터가 보여짐
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setDataFilter(dataItem => dataItem["idx"] % 2 == 0); // idx 가 짝수인 데이터만 보이기
+        fuckingNexacro.setDataFilter((dataItem, index) => index < 5); // 상위 5건만 보이기
+    });
+</script>
+</xmp></code></pre>
+					<div id="setdatafilter"></div>
+					<script>
+						let setdatafilter = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							setdatafilter = new FuckingNexacro({
+								target: document.querySelector("#setdatafilter"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m4 btn-flat lighten-3 waves-effect waves-light" onclick="setdatafilter.setDataFilter(null);">모든 데이터 보이기 (조건식 해제)</button>
+						<button class="col s12 m4 btn deep-purple lighten-3 waves-effect waves-light" onclick='setdatafilter.setDataFilter(dataItem => dataItem["idx"] % 2 == 0);' style="text-transform: unset;">idx 가 짝수인 데이터만 보이기 (조건식 지정)</button>
+						<button class="col s12 m4 btn deep-purple waves-effect waves-light" onclick='setdatafilter.setDataFilter((dataItem, index) => index < 5);' style="text-transform: unset;">상위 5건만 보이기 (조건식 지정)</button>
+					</div><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;필터가 적용된 상태에서 addDataList 호출 시 화면에 아무런 변화가 없을 수 있습니다.</b><br/>
+						<span>데이터의 편집이 요구되는 서비스 및 페이지에서는 setDataFilter 메소드의 사용을 재고해주세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="11_find_first_next" class="index scrollspy">
+                    <h3>데이터 찾기</h3>
+					<p>브라우저의 "페이지 내 찾기" 기능과 별개로 데이터를 찾는 기능을 제공합니다. 단순히 데이터의 텍스트만을 찾는 기능이 아닌 수식조건을 만족하는 찾기 기능도 제공됩니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;테스트 데이터로&nbsp;<a href="https://dummyjson.com/">https://dummyjson.com/</a>&nbsp;의 데이터를 사용하였습니다.</b>
+					</div>
+<pre><code><xmp>fuckingNexacro.findFirst(dataItem => dataItem["idx"] > 100 && dataItem["username"].indexOf("fuckingNexacro") > -1); // 검색 조건식을 지정
+fuckingNexacro.findNext(); // 검색 조건식을 유지한 채로 1단계 씩 순회, 마지막 검색 데이터에 이르렀을 경우 첫번째 검색 데이터로 반복 순회
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+
+    window.addEventListener("DOMContentLoaded", () => {
+        fetch("https://dummyjson.com/todos").then(res => res.json()).then(resultList => {
+            fuckingNexacro = new FuckingNexacro({
+                target: document.querySelector("#fuckingNexacro"), 
+                props: {
+                    column: [
+                        { key: "id",        text: "ID",        width:  50, type: "number",  fixed: false, format: null }, 
+                        { key: "todo",      text: "할 일",     width: 240, type: "string",  fixed: false, format: null }, 
+                        { key: "completed", text: "완료여부",  width:  80, type: "boolean", fixed: false, format: null }, 
+                        { key: "userId",    text: "사용자 ID", width: 100, type: "number",  fixed: false, format: null }
+                    ], 
+                    data: resultList.todos, 
+                    keyColumn: "id", 
+                    width: "100%", 
+                    height: 320, 
+                    rowHeight: 32
+                }
+            });
+
+            fuckingNexacro.findFirst(dataItem => dataItem["completed"] == true && dataItem["userId"] >= 40); // 완료한 작업이면서 동시에 userId 의 값이 40 이상인 데이터를 캡쳐
+            fuckingNexacro.findNext(); // 캡쳐된 데이터를 1건씩 순회, 마지막 캡쳐된 데이터에 도달했을 경우 처음으로 돌아감
+        });
+    });
+</script>
+
+<style>
+    #fuckingNexacro .fn_row.fn_mouseenter_data { background-color: #BBB; } /* findFirst, findNext 검색 시 커서 이동을 표현하기 위한 임시 CSS */
+</style>
+</xmp></code></pre>
+					<div id="findfirstnext"></div>
+					<script>
+						let findfirstnext;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							fetch("https://dummyjson.com/todos").then(res => res.json()).then(resultList => {
+								findfirstnext = new FuckingNexacro({
+									target: document.querySelector("#findfirstnext"), 
+									props: {
+										column: [
+											{ key: "id", 			text: "ID", 		width:  50, type: "number", 	fixed: false, 	format: null }, 
+											{ key: "todo", 			text: "할 일", 		width: 240, type: "string", 	fixed: false, 	format: null }, 
+											{ key: "completed", 	text: "완료여부", 	width:  80, type: "boolean", 	fixed: false, 	format: null }, 
+											{ key: "userId", 		text: "사용자 ID", 	width: 100, type: "number", 	fixed: false, 	format: null }
+										], 
+										data: resultList.todos, 
+										keyColumn: "id", 
+										width: "100%", 
+										height: 320, 
+										rowHeight: 32
+									}
+								});
+
+								findfirstnext.findFirst(dataItem => dataItem["completed"] && dataItem["userId"] >= 40);
+							});
+						});
+					</script>
+					<style>
+						#findfirstnext .fn_row .fn_body_cell.fn_mouseenter_data { background-color: #BBB; }
+					</style><br/>
+					<div class="col s12 row">
+						<button class="col s12 m12 btn deep-purple waves-effect waves-light" onclick="alert(JSON.stringify(findfirstnext.findNext()));" style="text-transform: unset;">순회 (완료된 할일 중 userId 가 40 이상인 데이터)</button>
+					</div><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;findNext 호출 시 뷰포트 밖에 있는 데이터를 찾은 경우 자동으로 스크롤이 이동합니다.</b><br/>
+						<span>또한, 순회중인 경우 순회차례인 항목에&nbsp;<code class="materialize-red-text">.fn_mouseenter_data</code>&nbsp;클래스 스타일이 적용됩니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="12_gotoscroll" class="index scrollspy">
+                    <h3>데이터 위치로 스크롤</h3>
+					<p>데이터가 배치된 위치로 스크롤을 합니다. 인자는 데이터 목록 중 몇번째에 위치해있는지(index) 정수값을 전달합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;테스트 데이터로&nbsp;<a href="https://microsoftedge.github.io/Demos/json-dummy-data/512KB-min.json">https://microsoftedge.github.io/Demos/json-dummy-data/512KB-min.json</a>&nbsp;의 데이터를 사용하였습니다.</b>
+					</div>
+<pre><code><xmp>fuckingNexacro.goToScroll(100); // 데이터목록 중 100번째 데이터 항목으로 스크롤
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null;
+
+    window.addEventListener("DOMContentLoaded", () => {
+        fetch("https://microsoftedge.github.io/Demos/json-dummy-data/512KB-min.json").then(res => res.json()).then(resultList => {
+            fuckingNexacro = new FuckingNexacro({
+                target: document.querySelector("#fuckingNexacro"), 
+                props: {
+                    column: [
+                        { key: "index",     text: "순번",      width: 120, type: "number",  fixed: false, format: null }, 
+                        { key: "id",        text: "ID",        width: 120, type: "string",  fixed: false, format: value => value }, 
+                        { key: "name",      text: "이름",      width: 120, type: "string",  fixed: false, format: null }, 
+                        { key: "language",  text: "언어",      width: 120, type: "string",  fixed: false, format: null }, 
+                        { key: "bio",       text: "코멘트",    width: 400, type: "string",  fixed: false, format: null }, 
+                        { key: "version",   text: "버전",      width: 120, type: "string",  fixed: false, format: null }
+                    ], 
+                    data: resultList.map((dataItem, index) => {
+                        dataItem["index"] = index;
+
+                        return item;
+                    }), 
+                    keyColumn: "index", 
+                    width: "100%", 
+                    height: 320, 
+                    rowHeight: 32
+                }
+            });
+
+            fuckingNexacro.goToScroll(100);
+        });
+    });
+</script>
+</xmp></code></pre>
+					<div id="gotoscroll"></div>
+					<script>
+						let gotoscroll;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							fetch("https://microsoftedge.github.io/Demos/json-dummy-data/512KB-min.json").then(res => res.json()).then(resultList => {
+								gotoscroll = new FuckingNexacro({
+									target: document.querySelector("#gotoscroll"), 
+									props: {
+										column: [
+											{ key: "index",     text: "순번",      width: 120, type: "number",  fixed: false, format: null }, 
+											{ key: "id",        text: "ID",        width: 120, type: "string",  fixed: false, format: value => value }, 
+											{ key: "name",      text: "이름",      width: 120, type: "string",  fixed: false, format: null }, 
+											{ key: "language",  text: "언어",      width: 120, type: "string",  fixed: false, format: null }, 
+											{ key: "bio",       text: "코멘트",    width: 400, type: "string",  fixed: false, format: null }, 
+											{ key: "version",   text: "버전",      width: 120, type: "string",  fixed: false, format: null }
+										], 
+										data: resultList.map((dataItem, index) => {
+											dataItem["index"] = index;
+
+											return dataItem;
+										}), 
+										keyColumn: "index", 
+										width: "100%", 
+										height: 320, 
+										rowHeight: 32
+									}
+								});
+							});
+						});
+					</script><br/>
+					<div class="col s12 row">
+						<button class="col s12 m12 btn deep-purple waves-effect waves-light" onclick="gotoscroll.goToScroll(100);" style="text-transform: unset;">100번째 항목으로 스크롤 (0번부터 시작하는 데이터는 99번이 100번째)</button>
+					</div><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;setDataFilter 를 통해 스크롤 타겟이 되는 데이터가 보여지지 않을 경우에는 스크롤되지 않습니다.</b><br/>
+						<span>setDataFilter 의 원리는 조건미달 데이터를 숨기는 것이 아닌 아예 생성을 하지 않는 구조이기 때문에 작동되지 않습니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="13_setrowclass" class="index scrollspy">
+                    <h3>조건부 행에 커스텀 클래스 부여</h3>
+					<p>CSS 적용 및 이벤트 등록을 위한 커스텀 클래스를 부여할 수 있습니다. 취지는 이벤트 등록보다는 CSS 적용을 위한 기능입니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setRowClass((dataItem, index) => dataItem["name"] == "fuckingNexacro"? [ "custom_class_00", "custom_class_01" ]: []); 
+// 조건에 해당되면 class 에 "custom_class_00 custom_class_01" 가 추가되도록 정의함
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<style>
+    /* 커스텀 클래스에 적용할 스타일 지정, 적용하고자 하는 커스텀 클래스는 .setRowClass_red */
+    /* row > colgroup > cell 순서대로 지정해주세요. */
+    .setRowClass_red.fn_row_selected .fn_body_colgroup .fn_cell { color: white; background-color: #F3F; } /* 핑크 */
+    .setRowClass_red .fn_body_colgroup .fn_cell { color: white; background-color: #F33; } /* 진빨강 */
+    .setRowClass_red .fn_cell { color: white; background-color: #F77; } /* 연빨강 */
+</style>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setRowClass((dataItem, index) => !dataItem["username"] && index % 2 == 0? [ "setRowClass_red" ]: []); // 짝수 항목 중 username 이 공란일 경우 setRowClass_red 클래스를 부여
+    });
+</script>
+</xmp></code></pre>
+					<div id="setrowclass"></div>
+					<style>
+						.setRowClass_red.fn_row_selected .fn_body_colgroup .fn_cell { color: white; background-color: #F3F; }
+						.setRowClass_red .fn_body_colgroup .fn_cell { color: white; background-color: #F33; }
+						.setRowClass_red .fn_cell { color: white; background-color: #F77; }
+					</style>
+					<script>
+						let setrowclass = null;
+
+                        window.addEventListener("DOMContentLoaded", () => {
+                            setrowclass = new FuckingNexacro({
+                                target: document.querySelector("#setrowclass"), 
+                                props: {
+                                    column: [
+                                        { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+                                        { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+                                    ], 
+                                    data: [
+                                        { "idx": 0, "username": "username000" }, 
+                                        { "idx": 1, "username": "username001" }, 
+                                        { "idx": 2, "username": "username002" }, 
+                                        { "idx": 3, "username": "username003" }, 
+                                        { "idx": 4, "username": "username004" }, 
+                                        { "idx": 5, "username": "username005" }, 
+                                        { "idx": 6, "username": "username006" }, 
+                                        { "idx": 7, "username": "username007" }
+                                    ], 
+                                    keyColumn: "idx", 
+                                    width: "100%", 
+                                    height: 240, 
+                                    rowHeight: 32
+                                }
+                            });
+
+							setrowclass.setRowClass((dataItem, index) => !dataItem["username"] && index % 2 == 0? [ "setRowClass_red" ]: []);
+                        });
+					</script><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;행 단위로 적용되는 기능입니다.</b><br/>
+						<span>열 단위로 적용되는 기능은 setCellClass 메소드를 참조하세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="14_setcellclass" class="index scrollspy">
+                    <h3>조건부 열에 커스텀 클래스 부여</h3>
+					<p>CSS 적용 및 이벤트 등록을 위한 커스텀 클래스를 부여할 수 있습니다. 취지는 이벤트 등록보다는 CSS 적용을 위한 기능입니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setCellClass((columnItem, dataItem) => columnItem["key"] == "name" && dataItem[columnItem.key] == "fuckingNexacro"? [ "custom_class_00", "custom_class_01" ]: []); 
+// 조건에 해당되면 class 에 "custom_class_00 custom_class_01" 가 추가되도록 정의함
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<style>
+    /* 커스텀 클래스에 적용할 스타일 지정, 적용하고자 하는 커스텀 클래스는 .setCellClass_green */
+    /* row > colgroup > cell 순서대로 지정해주세요. */
+    .fn_row_selected .fn_body_colgroup .fn_cell.setCellClass_green { color: white; background-color: #3D3; } /* 밝은 녹색 */
+    .fn_cell.setCellClass_green { color: white; background-color: #393; } /* 진녹색 */
+</style>
+
+<script>
+    fuckingNexacro = null;
+	
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setCellClass((columnItem, dataItem) => columnItem["key"] == "username" && !dataItem[columnItem.key]? [ "setCellClass_green" ]: []); // username 열에 데이터가 공란일 경우 setCellClass_green 클래스를 부여
+    });
+</script>
+</xmp></code></pre>
+					<div id="setcellclass"></div>
+					<style>
+						.fn_row_selected .fn_body_colgroup .fn_cell.setCellClass_green { color: white; background-color: #3D3; } /* 밝은 녹색 */
+						.fn_cell.setCellClass_green { color: white; background-color: #393; } /* 진녹색 */
+					</style>
+					<script>
+						let setcellclass = null;
+
+                        window.addEventListener("DOMContentLoaded", () => {
+                            setcellclass = new FuckingNexacro({
+                                target: document.querySelector("#setcellclass"), 
+                                props: {
+                                    column: [
+                                        { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+                                        { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+                                    ], 
+                                    data: [
+                                        { "idx": 0, "username": "username000" }, 
+                                        { "idx": 1, "username": "username001" }, 
+                                        { "idx": 2, "username": "username002" }, 
+                                        { "idx": 3, "username": "username003" }, 
+                                        { "idx": 4, "username": "username004" }, 
+                                        { "idx": 5, "username": "username005" }, 
+                                        { "idx": 6, "username": "username006" }, 
+                                        { "idx": 7, "username": "username007" }
+                                    ], 
+                                    keyColumn: "idx", 
+                                    width: "100%", 
+                                    height: 240, 
+                                    rowHeight: 32
+                                }
+                            });
+
+							setcellclass.setCellClass((columnItem, dataItem) => columnItem["key"] == "username" && !dataItem[columnItem.key]? [ "setCellClass_green" ]: []);
+                        });
+					</script><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;열 단위로 적용되는 기능입니다.</b><br/>
+						<span><code class="materialize-red-text">setRowClass</code>&nbsp;와는 인자에서&nbsp;<code class="materialize-red-text">index</code>를 받는지,&nbsp;<code class="materialize-red-text">columnItem</code>을 받는지의 차이가 있습니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

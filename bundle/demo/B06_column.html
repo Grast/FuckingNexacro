@@ -1,0 +1,595 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">view_column</span>&nbsp;헤더 설정</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_column_visibility" class="index scrollspy">
+                    <h3>특정 열 보이기/숨기기</h3>
+					<p>특정 열을 보이지 않게 할 수 있습니다. 상황에 따라 보여지고 숨겨져야 할 가시성이 변동될 수 있는 열(Column)을 상대로 사용하기에 좋습니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.showColumn({ "key": /* 솜겨진 열 중 보여질 열의 key 값 */ }); // 열 보임
+fuckingNexacro.hideColumn({ "key": /* 보이는 열 중 숨겨질 열의 key 값 */ }); // 열 숨김
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx: 0, username: "username000" }, 
+                    { idx: 1, username: "username001" }, 
+                    { idx: 2, username: "username010" }, 
+                    { idx: 3, username: "username011" }, 
+                    { idx: 4, username: "" }, 
+                    { idx: 5, username: "username101" }, 
+                    { idx: 6, username: "username110" }, 
+                    { idx: 7, username: "username111" } 
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.hideColumn({ "key": "idx" });
+        /* fuckingNexacro.showColumn({ "key": "idx" }); */    // 숨겨진 열을 되살릴 때 호출하는 showColumn 메소드
+    });
+</script>
+</xmp></code></pre>
+					<div id="hideColumn"></div>
+					
+					<script src="준비된_번들_js파일"></script>
+					<script>
+						let hideColumn;
+					
+						window.addEventListener("DOMContentLoaded", () => {
+							hideColumn = fuckingNexacro = new FuckingNexacro({
+								target: document.querySelector("#hideColumn"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000" }, 
+										{ idx: 1, username: "username001" }, 
+										{ idx: 2, username: "username010" }, 
+										{ idx: 3, username: "username011" }, 
+										{ idx: 4, username: "" }, 
+										{ idx: 5, username: "username101" }, 
+										{ idx: 6, username: "username110" }, 
+										{ idx: 7, username: "username111" } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 200, 
+									rowHeight: 32
+								}
+							});
+							hideColumn.hideColumn({ "key": "idx" });
+						});
+					</script><br/>
+				<div class="row">
+					<button type="button" class="col s6 btn waves-effect waves-light deep-purple" onclick='hideColumn.showColumn({ "key": "idx" })'>idx 열 보이기</button>
+					<button type="button" class="col s6 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='hideColumn.hideColumn({ "key": "idx" })'>idx 열 숨기기</button>
+				</div>
+				<div class="row">
+					<button type="button" class="col s6 btn waves-effect waves-light deep-purple" onclick='hideColumn.showColumn({ "key": "username" })'>username 열 보이기</button>
+					<button type="button" class="col s6 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='hideColumn.hideColumn({ "key": "username" })'>username 열 숨기기</button>
+				</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="01_column_fix" class="index scrollspy">
+                    <h3>특정 열 고정하기/고정풀기, 모든 열 고정 풀기</h3>
+					<p>좌우 스크롤에 상관없이 항시 보여지는 열을 설정할 수 있습니다. 보여지는 공간 이상으로 고정된 열이 많아 제기능을 못할 경우 모든 열의 고정을 일괄 해제할 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setFixed({ "key": /* 솜겨진 열 중 보여질 열의 key 값 */, true }); // 열 고정
+fuckingNexacro.setFixed({ "key": /* 솜겨진 열 중 보여질 열의 key 값 */, false }); // 열 고정 풀기
+fuckingNexacro.unsetFixedAll(); // 모든 열의 고정여부를 해제
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }, 
+                    { key: "description", text: "비고", width: 400, type: "string", fixed: false, format: null }, 
+                    { key: "year", text: "등록년도", width: 200, type: "number", fixed: false, format: null }, 
+                    { key: "month", text: "등록월", width: 200, type: "number", fixed: false, format: null }, 
+                    { key: "date", text: "등록일", width: 200, type: "number", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx: 0, username: "username000", description: "", year: 0, month: 0, date: 0 }, 
+                    { idx: 1, username: "username001", description: "", year: 0, month: 0, date: 0 }, 
+                    { idx: 2, username: "username010", description: "", year: 0, month: 0, date: 0 }, 
+                    { idx: 3, username: "username011", description: "", year: 0, month: 0, date: 0 }, 
+                    { idx: 4, username: "", description: "", year: 0, month: 0, date: 0 }, 
+                    { idx: 5, username: "username101", description: "", year: 0, month: 0, date: 0 }, 
+                    { idx: 6, username: "username110", description: "", year: 0, month: 0, date: 0 }, 
+                    { idx: 7, username: "username111", description: "", year: 0, month: 0, date: 0 } 
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.setFixed({ "key": "username" }, true);    // username 열을 좌우스크롤 상관없이 무조건 보여지게 만드는 메소드
+        /* fuckingNexacro.setFixed({ "key": "username" }, false); */    // 고정된 열을 해제할 때 호출하는 메소드
+        /* fuckingNexacro.unsetFixedAll(); */    // 모든 열의 고정속성을 해제하는 메소드
+    });
+</script>
+</xmp></code></pre>
+					<div id="fixColumn"></div>
+					
+					<script src="준비된_번들_js파일"></script>
+					<script>
+						let fixColumn;
+					
+						window.addEventListener("DOMContentLoaded", () => {
+							fixColumn = fuckingNexacro = new FuckingNexacro({
+								target: document.querySelector("#fixColumn"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }, 
+										{ key: "description", text: "비고", width: 400, type: "string", fixed: false, format: null }, 
+										{ key: "year", text: "등록년도", width: 200, type: "number", fixed: false, format: null }, 
+										{ key: "month", text: "등록월", width: 200, type: "number", fixed: false, format: null }, 
+										{ key: "date", text: "등록일", width: 200, type: "number", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000", description: "", year: 0, month: 0, date: 0 }, 
+										{ idx: 1, username: "username001", description: "", year: 0, month: 0, date: 0 }, 
+										{ idx: 2, username: "username010", description: "", year: 0, month: 0, date: 0 }, 
+										{ idx: 3, username: "username011", description: "", year: 0, month: 0, date: 0 }, 
+										{ idx: 4, username: "", description: "", year: 0, month: 0, date: 0 }, 
+										{ idx: 5, username: "username101", description: "", year: 0, month: 0, date: 0 }, 
+										{ idx: 6, username: "username110", description: "", year: 0, month: 0, date: 0 }, 
+										{ idx: 7, username: "username111", description: "", year: 0, month: 0, date: 0 } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 200, 
+									rowHeight: 32
+								}
+							});
+							fixColumn.setFixed({ "key": "username" });
+						});
+					</script><br/>
+				<div class="row">
+					<button type="button" class="col s2 btn waves-effect waves-light deep-purple" onclick='fixColumn.setFixed({ "key": "idx" }, true)'>일련번호 열 고정하기</button>
+					<button type="button" class="col s2 btn waves-effect waves-light deep-purple lighten-2" onclick='fixColumn.setFixed({ "key": "username" }, true)'>사용자명 열 고정하기</button>
+					<button type="button" class="col s2 btn waves-effect waves-light deep-purple" onclick='fixColumn.setFixed({ "key": "description" }, true)'>비고 열 고정하기</button>
+					<button type="button" class="col s2 btn waves-effect waves-light deep-purple lighten-2" onclick='fixColumn.setFixed({ "key": "year" }, true)'>등록년도 열 고정하기</button>
+					<button type="button" class="col s2 btn waves-effect waves-light deep-purple" onclick='fixColumn.setFixed({ "key": "month" }, true)'>등록월 열 고정하기</button>
+					<button type="button" class="col s2 btn waves-effect waves-light deep-purple lighten-2" onclick='fixColumn.setFixed({ "key": "date" }, true)'>등록일 열 고정하기</button>
+					<button type="button" class="col s2 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='fixColumn.setFixed({ "key": "idx" }, false)'>일련번호 열 풀기</button>
+					<button type="button" class="col s2 btn btn-flat waves-effect waves-light deep-purple lighten-5" onclick='fixColumn.setFixed({ "key": "username" }, false)'>사용자명 열 풀기</button>
+					<button type="button" class="col s2 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='fixColumn.setFixed({ "key": "description" }, false)'>비고 열 풀기</button>
+					<button type="button" class="col s2 btn btn-flat waves-effect waves-light deep-purple lighten-5" onclick='fixColumn.setFixed({ "key": "year" }, false)'>등록년도 열 풀기</button>
+					<button type="button" class="col s2 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='fixColumn.setFixed({ "key": "month" }, false)'>등록월 열 풀기</button>
+					<button type="button" class="col s2 btn btn-flat waves-effect waves-light deep-purple lighten-5" onclick='fixColumn.setFixed({ "key": "date" }, false)'>등록일 풀기</button>
+					<button type="button" class="col s12 btn waves-effect waves-light black white-text" onclick='fixColumn.unsetFixedAll()'>모든 열 풀기</button>
+				</div><br/>
+				<div class="col s12 card-panel hoverable orange lighten-4">
+					<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;우측 고정 기능은 지원하지 않습니다.</b><br/>
+					<span>좌측 고정 기능만 지원하며, 우측 고정은 지원하지 않습니다.</span>
+				</div>
+				<div class="col s12 card-panel hoverable orange lighten-4">
+					<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;데이터 복사 후 엑셀 붙여넣기 시 열 고정 속성을 반영하지 않습니다.</b><br/>
+					<span>열의 고정속성 여부에 상관없이 무조건 원본의 열 순서를 따라 클립보드에 복사됩니다. 열 순서를 유지한 채로 클립보드에 복사하는 기능은 지원하지 않습니다.</span>
+				</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="02_checkbox_visibility" class="index scrollspy">
+                    <h3>체크박스 열 보이기/숨기기</h3>
+					<p>체크박스 열을 보이지 않게 할 수 있습니다. 데이터(레코드) 선택 기능이 불필요한 경우 사용할 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.showCheckboxColumn(); // 체크박스 열 보임
+fuckingNexacro.hideCheckboxColumn(); // 체크박스 열 숨김
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx: 0, username: "username000" }, 
+                    { idx: 1, username: "username001" }, 
+                    { idx: 2, username: "username010" }, 
+                    { idx: 3, username: "username011" }, 
+                    { idx: 4, username: "" }, 
+                    { idx: 5, username: "username101" }, 
+                    { idx: 6, username: "username110" }, 
+                    { idx: 7, username: "username111" } 
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.hideCheckboxColumn();
+        /* fuckingNexacro.showCheckboxColumn(); */    // 숨겨진 체크박스 열을 되살릴 때 호출하는 showCheckboxColumn 메소드
+    });
+</script>
+</xmp></code></pre>
+					<div id="hideCheckboxColumn"></div>
+					
+					<script src="준비된_번들_js파일"></script>
+					<script>
+						let hideCheckboxColumn;
+					
+						window.addEventListener("DOMContentLoaded", () => {
+							hideCheckboxColumn = fuckingNexacro = new FuckingNexacro({
+								target: document.querySelector("#hideCheckboxColumn"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000" }, 
+										{ idx: 1, username: "username001" }, 
+										{ idx: 2, username: "username010" }, 
+										{ idx: 3, username: "username011" }, 
+										{ idx: 4, username: "" }, 
+										{ idx: 5, username: "username101" }, 
+										{ idx: 6, username: "username110" }, 
+										{ idx: 7, username: "username111" } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 200, 
+									rowHeight: 32
+								}
+							});
+							hideCheckboxColumn.hideCheckboxColumn();
+						});
+					</script><br/>
+				<div class="row">
+					<button type="button" class="col s6 btn waves-effect waves-light deep-purple" onclick='hideCheckboxColumn.showCheckboxColumn()'>체크박스 열 보이기</button>
+					<button type="button" class="col s6 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='hideCheckboxColumn.hideCheckboxColumn()'>체크박스 열 숨기기</button>
+				</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="03_button_visibility" class="index scrollspy">
+                    <h3>버튼 열 보이기/숨기기</h3>
+					<p>버튼 열을 보이지 않게 할 수 있습니다. 데이터(레코드) 별 버튼 기능이 불필요한 경우 사용할 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.showButtonColumn(); // 버튼 열 보임
+fuckingNexacro.hideButtonColumn(); // 버튼 열 숨김
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx: 0, username: "username000" }, 
+                    { idx: 1, username: "username001" }, 
+                    { idx: 2, username: "username010" }, 
+                    { idx: 3, username: "username011" }, 
+                    { idx: 4, username: "" }, 
+                    { idx: 5, username: "username101" }, 
+                    { idx: 6, username: "username110" }, 
+                    { idx: 7, username: "username111" } 
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32, 
+                button: {
+                    header: "버튼", 
+                    text: dataItem => dataItem["username"]? ((("" + dataItem["username"]) || "") + " 의 설정"): ("(사용자명 없음) 의 설정"), 
+                    class: dataItem => "btn_flat waves-effect waves-light", 
+                    width: 160, 
+                    fixed: true, 
+                    visible: dataItem => true, 
+                    enable: dataItem => true, 
+                    onclick: dataItem => { alert((("" + dataItem["username"]) || "") + " 의 기능을 제공하기 위한 콜백 함수입니다."); } 
+                }
+            }
+        });
+        fuckingNexacro.hideButtonColumn();
+        /* fuckingNexacro.showButtonColumn(); */    // 숨겨진 버튼 열을 되살릴 때 호출하는 showButtonColumn 메소드
+    });
+</script>
+</xmp></code></pre>
+					<div id="hideButtonColumn"></div>
+					
+					<script src="준비된_번들_js파일"></script>
+					<script>
+						let hideButtonColumn;
+					
+						window.addEventListener("DOMContentLoaded", () => {
+							hideButtonColumn = fuckingNexacro = new FuckingNexacro({
+								target: document.querySelector("#hideButtonColumn"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000" }, 
+										{ idx: 1, username: "username001" }, 
+										{ idx: 2, username: "username010" }, 
+										{ idx: 3, username: "username011" }, 
+										{ idx: 4, username: "" }, 
+										{ idx: 5, username: "username101" }, 
+										{ idx: 6, username: "username110" }, 
+										{ idx: 7, username: "username111" } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 200, 
+									rowHeight: 32, 
+									button: {
+										header: "버튼", 
+										text: dataItem => dataItem["username"]? ((("" + dataItem["username"]) || "") + " 의 설정"): ("(사용자명 없음) 의 설정"), 
+										class: dataItem => "btn_flat waves-effect waves-light", 
+										width: 160, 
+										fixed: true, 
+										visible: dataItem => true, 
+										enable: dataItem => true, 
+										onclick: dataItem => { alert((("" + dataItem["username"]) || "") + " 의 기능을 제공하기 위한 콜백 함수입니다."); } 
+									}
+								}
+							});
+							hideButtonColumn.hideButtonColumn();
+						});
+					</script><br/>
+				<div class="row">
+					<button type="button" class="col s6 btn waves-effect waves-light deep-purple" onclick='hideButtonColumn.showButtonColumn()'>버튼 열 보이기</button>
+					<button type="button" class="col s6 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='hideButtonColumn.hideButtonColumn()'>버튼 열 숨기기</button>
+				</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="04_group" class="index scrollspy">
+                    <h3>열의 그룹데이터 가져오기/바꾸기</h3>
+					<p>콤보박스를 구성하는 열의 그룹데이터를 가져오거나 변경합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터그리드가 "읽기전용" 상태인 경우에는 setColumnGroup 을 호출할 수 없습니다.</b><br/>
+						<span>데이터그리드 읽기전용/쓰기모드는&nbsp;<a href="./B00_begin.html#01_readonly">여기</a>&nbsp;를 참고해주세요. getColumnGroup 은 "읽기전용" 상태라도 정상작동합니다.</span>&nbsp;<span class="strike">대충 눈에 "정상영업" 밖에 안들어오는 짤</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.getColumnGroup({ "key": "rating" }); // 열을 특정하면 해당 열의 그룹데이터를 반환
+fuckingNexacro.setColumnGroup({ "key": "rating" }, [
+    { value: null, text: "(없음)" }, 
+    { value: "A", text: "A 그룹" }, 
+    { value: "B", text: "B 그룹" }, 
+    { value: "C", text: "C 그룹" }, 
+    { value: "D", text: "D 그룹" }
+]); // 버튼 열 숨김
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    group;
+    rating = [
+    	{ value: null, text: "(없음)" }, 
+    	{ value: "A", text: "A 그룹" }, 
+    	{ value: "B", text: "B 그룹" }, 
+    	{ value: "C", text: "C 그룹" }
+    ];
+    rating2 = [
+    	{ value: null, text: "(없음)" }, 
+    	{ value: "B", text: "B 그룹" }, 
+    	{ value: "C", text: "C 그룹" }, 
+    	{ value: "D", text: "D 그룹" }
+    ];
+
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }, 
+                    { key: "rating", text: "평가결과", width: 120, type: "string", fixed: false, group: rating, format: null } // 그룹 가져오기/바꾸기는 사전에 열이 미리 존재해야합니다.
+                ], 
+                data: [
+                    { idx: 0, username: "username000", rating: "A" }, 
+                    { idx: 1, username: "username001", rating: "B" }, 
+                    { idx: 2, username: "username010", rating: "C" }, 
+                    { idx: 3, username: "username011", rating: "D" }, 
+                    { idx: 4, username: "", rating: null }, 
+                    { idx: 5, username: "username101", rating: null }, 
+                    { idx: 6, username: "username110", rating: null }, 
+                    { idx: 7, username: "username111", rating: null } // 그룹을 담당하는 열 정보는 없어도 상관없으나 정보가 추가되는 순간부터 동일한 정보로 인지하지 못합니다.
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.setColumnGroup({ "key": "rating" }, [
+            { value: null, text: "(없음)" }, 
+            { value: "A", text: "A 그룹" }, 
+            { value: "B", text: "B 그룹" }, 
+            { value: "C", text: "C 그룹" }, 
+            { value: "D", text: "D 그룹 (폐쇄)" }
+        ]);
+    });
+</script>
+</xmp></code></pre>
+					<div id="group"></div>
+					
+					<script src="준비된_번들_js파일"></script>
+					<script>
+						let group;
+						let rating = [
+                            { value: null, text: "(없음)" }, 
+                            { value: "A", text: "A 그룹" }, 
+                            { value: "B", text: "B 그룹" }, 
+                            { value: "C", text: "C 그룹" }
+                        ];
+						let rating2 = [
+                            { value: null, text: "(없음)" }, 
+                            { value: "B", text: "B 그룹" }, 
+                            { value: "C", text: "C 그룹" }, 
+                            { value: "D", text: "D 그룹" }
+                        ];
+					
+						window.addEventListener("DOMContentLoaded", () => {
+							group = fuckingNexacro = new FuckingNexacro({
+								target: document.querySelector("#group"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }, 
+										{ key: "rating", text: "평가결과", width: 120, type: "string", fixed: false, group: rating, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000", rating: "A" }, 
+										{ idx: 1, username: "username001", rating: "B" }, 
+										{ idx: 2, username: "username010", rating: "C" }, 
+										{ idx: 3, username: "username011", rating: "D" }, 
+										{ idx: 4, username: "", rating: null }, 
+										{ idx: 5, username: "username101", rating: null }, 
+										{ idx: 6, username: "username110", rating: null }, 
+										{ idx: 7, username: "username111", rating: null } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 200, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+				<div class="row">
+					<button type="button" class="col s12 m6 btn waves-effect waves-light deep-purple" onclick='alert(JSON.stringify(group.getColumnGroup({ key: "rating" })))'>열 그룹 가져오기</button>
+					<button type="button" class="col s12 m6 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick='group.setColumnGroup({ key: "rating" }, group.getColumnGroup({ key: "rating" }) == rating? rating2: rating)'>그룹 열 바꾸기</button>
+					<button type="button" class="col s12 m6 btn black white-text waves-effect waves-light" onclick="group.setReadonly();" style="text-transform: unset;">읽기전용 (setColumnGroup 호출 불가)</button>
+					<button type="button" class="col s12 m6 btn btn-flat waves-effect waves-light" onclick="group.setEditable();">쓰기모드</button>
+				</div><br/>
+				<div class="col s12 card-panel hoverable orange lighten-4">
+					<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;그룹 변경 시&nbsp;<span class="red-text">변경된 그룹에서 취급하지 않는 데이터</span>는 공란으로 표시됩니다.</b><br/>
+					<span>데이터그리드 자체적으로 그룹요소에 해당하지 않는 값을 표시해주거나 경고해주는 기능은 없습니다. 디버깅 난점요소가 될 수 있으니 반드시 참고바랍니다.</span>
+				</div>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

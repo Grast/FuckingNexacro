@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>FuckingNexacro Demo</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+		<link rel="stylesheet" href="./index.css">
+		<link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+		<script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+		<script src="./bundle.js"></script>
+		<script>hljs.highlightAll();</script>
+		<script>
+			const toggleMenu = () => {
+				const body = document.body;
+				body.classList.toggle("sidenav-on");
+			}
+			const toggleTheme = () => {
+				localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+				setTheme();
+			}
+			const setTheme = () => {
+				document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+				document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+			}
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+			window.addEventListener("DOMContentLoaded", () => {
+				localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+				setTheme();
+			});
+		</script>
+	</head>
+	<body class="col s12 sidenav-on">
+		<ul id="slide-index" class="sidenav sidenav-fixed">
+			<li><a href="/bundle/index.html" class="waves-effect valign-wrapper"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+			<li><div class="divider"></div></li>
+			<li><a class="subheader">CSS 스타일</a></li>
+			<li><a href="/bundle/demo/A00_css_example.html" class="waves-effect"><span class="material-symbols-sharp">palette</span><span class="badge">1</span>&nbsp;CSS 예시</a></li>
+			<li><a href="/bundle/demo/A01_header.html" class="waves-effect"><span class="material-symbols-sharp">label</span><span class="badge">1</span>&nbsp;헤더</a></li>
+			<li><a href="/bundle/demo/A02_row.html" class="waves-effect"><span class="material-symbols-sharp">table_rows</span><span class="badge">1</span>&nbsp;바디 행 (로우)</a></li>
+			<li><a href="/bundle/demo/A03_column.html" class="waves-effect"><span class="material-symbols-sharp">view_column</span><span class="badge">1</span>&nbsp;바디 열 (컬럼)</a></li>
+			<li><div class="divider"></div></li>
+			<li><a class="subheader">가벼운 사용</a></li>
+			<li><a href="/bundle/demo/B00_begin.html" class="waves-effect"><span class="material-symbols-sharp">play_arrow</span><span class="badge">2</span>&nbsp;기본형</a></li>
+			<li><a href="/bundle/demo/B01_biglist_test.html" class="waves-effect"><span class="material-symbols-sharp">data_check</span><span class="badge">1</span>&nbsp;대용량 데이터 성능확인</a></li>
+			<li><a href="/bundle/demo/B02_editable.html" class="waves-effect"><span class="material-symbols-sharp">edit</span><span class="badge">2</span>&nbsp;데이터 수정</a></li>
+			<li><a href="/bundle/demo/B03_selectable.html" class="waves-effect"><span class="material-symbols-sharp">arrow_drop_down_circle</span><span class="badge">2</span>&nbsp;데이터 선택 (콤보박스)</a></li>
+			<li><a href="/bundle/demo/B04_button.html" class="waves-effect"><span class="material-symbols-sharp">chips</span><span class="badge">2</span>&nbsp;버튼</a></li>
+			<li><a href="/bundle/demo/B05_header.html" class="waves-effect"><span class="material-symbols-sharp">subheader</span><span class="badge">2</span>&nbsp;헤더 설정</a></li>
+			<li><a href="/bundle/demo/B06_column.html" class="waves-effect"><span class="material-symbols-sharp">view_column</span><span class="badge">5</span>&nbsp;열 설정</a></li>
+			<li><a href="/bundle/demo/B07_datalist.html" class="waves-effect"><span class="material-symbols-sharp">list</span><span class="badge">15</span>&nbsp;데이터 다루기</a></li>
+			<li><a href="/bundle/demo/B08_transaction.html" class="waves-effect"><span class="material-symbols-sharp">database</span><span class="badge">4</span>&nbsp;트랜잭션</a></li>
+			<li><a href="/bundle/demo/B09_dataevent.html" class="waves-effect"><span class="material-symbols-sharp">hearing</span><span class="badge">5</span>&nbsp;데이터 이벤트</a></li>
+			<li><div class="divider"></div></li>
+			<li><a class="subheader">본격적인 사용</a></li>
+		</ul>
+		<main class="col s12">
+			<div class="col s12 container">
+				<blockquote class="col s12">
+					<h1>FuckingNexacro</h1>
+					<div class="col s12 right valign-wrapper">
+						<div style="position:fixed;display:flex;">
+							<button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+							<button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+						</div>
+					</div>
+					<h5>예시 문서</h5>
+				</blockquote>
+			</div>
+			<div class="divider"></div>
+			<div class="col s12 container">
+				<p class="valign-wrapper"><span class="material-symbols-sharp">menu</span>&nbsp;우측의 메뉴를 통해 예시를 확인해주세요.</p>
+				<p class="valign-wrapper">메뉴가 보이지 않을 경우 상단의 <span class="material-symbols-sharp">menu</span> 버튼을 클릭(터치)해주세요.</p>
+				<p class="valign-wrapper">해당 demo 페이지는 데스크탑 환경에서 이용하는것을 전제로 작성되었습니다. 휴대용 기기에서는 표시 및 이용이 부적합할 수 있습니다.</p>
+			</div>
+		</main>
+	</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">more_vert</span>&nbsp;대용량 데이터 성능확인</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+				<blockquote id="00_biglist" class="index scrollspy">
+					<h3>대용량 데이터 성능확인</h3>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;데이터 건수가 많을수록 성능저하가&nbsp;<span style="color:red;">반드시</span>&nbsp;발생하므로 유의바랍니다.</b><br/>
+						<span class="strike">최적화가 너무 어려워서 그냥 안했습니다</span>
+					</div>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;테스트 데이터로&nbsp;<a href="https://microsoftedge.github.io/Demos/json-dummy-data/128KB-min.json">https://microsoftedge.github.io/Demos/json-dummy-data/128KB-min.json</a>&nbsp;의 데이터를 사용하였습니다.</b>
+					</div>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;소스코드는 생략합니다. rowHeight 는 24 로 설정했습니다.</b><br/>
+						<span>타 데모페이지에서는 rowHeight 32 를 주로 사용했으며, 해당 페이지에서는 rowHeight 24 로 설정하여 줄 공간이 좁아 빡박하게 느끼실 수 있습니다.</span>
+					</div>
+					<div id="biglist"></div>
+					<script defer>
+						let biglist;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							biglist = new FuckingNexacro({
+								target: document.querySelector("#biglist"), 
+								props: {
+									column: [
+										{ key: "idx",      text: "idx",      width: 120, type: "number", fixed: false, format: null }, 
+										{ key: "id",       text: "id",       width: 120, type: "string", fixed: false, format: null }, 
+										{ key: "name",     text: "name",     width: 160, type: "string", fixed: false, format: null }, 
+										{ key: "language", text: "language", width: 120, type: "string", fixed: false, format: null }, 
+										{ key: "bio",      text: "bio",      width: 240, type: "string", fixed: false, format: null }, 
+										{ key: "version",  text: "version",  width: 120, type: "number", fixed: false, format: null }
+									], 
+									data: [], 
+									keyColumn: "id", 
+									width: "100%", 
+									height: 720, 
+									rowHeight: 24
+								}
+							});
+							
+							fetch("https://microsoftedge.github.io/Demos/json-dummy-data/128KB-min.json").then(res => res.json()).then(resultList => biglist.setDataList(resultList.map((item, index) => { item["idx"] = index; return item; })));
+						});
+					</script>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

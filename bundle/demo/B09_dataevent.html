@@ -1,0 +1,513 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">hearing</span>&nbsp;데이터 이벤트</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_setondatachange" class="index scrollspy">
+                    <h3>데이터 변경 감지하기</h3>
+					<p>관리/편집 중인 데이터그리드에서 데이터의 수정이 발생한 경우 수정된 데이터를 넘겨받는 콜백함수를 실행하도록 할 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setOnDataChange(dataItem => { return 값이 존재하지 않는 콜백함수 });
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setOnDataChange(dataItem => alert(JSON.stringify(dataItem))); // 데이터 수정 발생 및 편집 종료 시 얼럿을 띄우기
+        fuckingNexacro.setOnDataChange(null); // 이벤트 삭제
+    });
+</script>
+</xmp></code></pre>
+					<div id="setondatachange"></div>
+					<script>
+						let setondatachange = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							setondatachange = new FuckingNexacro({
+								target: document.querySelector("#setondatachange"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							setondatachange.setOnDataChange(dataItem => alert(JSON.stringify(dataItem)));
+						});
+					</script><br/>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;데이터 편집 종료 시 반응합니다.</b><br/>
+						<span>데이터를 직접 편집해보세요. 수정이 종료되는 즉시 바로 실행됩니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;트랜잭션 모드에 상관없이 사용 가능하며, 이에 따라 데이터의 수정 전 상태를 확인할 수 없습니다.</b><br/>
+						<span>따라서 원본으로 회복/롤백하기 위한 용도로는 사용할 수 없으며, 호출시점 또한 편집이 종료된 이후이기 때문에 편집을 막는 콜백으로써 사용할 수 없습니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="01_setondatacopy" class="index scrollspy">
+                    <h3>데이터 복사 감지하기</h3>
+					<p>단건 데이터 또는 Shift+클릭이나 Ctrl+클릭 등을 통해 다수의 데이터가 선택된 상태에서 Ctrl+C 복사를 시도했을 때 호출될 이벤트를 등록합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setOnDataCopy((columnList, selectedDataList) => { return true/false; 로 마무리되는 콜백 함수 });
+fuckingNexacro.setOnDataCopy(() => false); // 데이터 복사 차단
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setOnDataCopy((columnList, selectedDataList) => {
+            console.log("columnList: ", columnList);
+            console.log("selectedDataList: ", selectedDataList);
+        });
+    });
+</script>
+</xmp></code></pre>
+					<div id="setondatacopy"></div>
+					<script>
+						let setondatacopy = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							setondatacopy = new FuckingNexacro({
+								target: document.querySelector("#setondatacopy"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							setondatacopy.setOnDataCopy((columnList, selectedDataList) => {
+								console.log("columnList: ", columnList);
+								console.log("selectedDataList: ", selectedDataList);
+							});
+						});
+					</script><br/>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;Ctrl+C 입력 시 반응합니다. 개발자도구 콘솔을 통해 결과를 확인해주세요.</b><br/>
+						<span>데이터 클릭, Ctrl+클릭, Shift+클릭 등으로 단건 및 다수건 데이터를 선택한 다음 Ctrl+C 를 통해 데이터를 복사해보세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="02_setondatapaste" class="index scrollspy">
+                    <h3>데이터 붙여넣기 감지하기</h3>
+					<p>클립보드의 데이터를 데이터그리드에 붙여넣을 때 호출될 이벤트를 등록합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setOnDataPaste(dataList => { return true/false; 로 마무리되는 콜백 함수 });
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setOnDataPaste(dataList => {
+            alert(JSON.stringify(dataList));
+            return true;
+        });
+        fuckingNexacro.setOnDataPaste(dataList => false); // 클립보드 데이터 붙여넣기 찾단
+        fuckingNexacro.setOnDataPaste(null) // 이벤트 제거
+    });
+</script>
+</xmp></code></pre>
+					<div id="setondatapaste"></div>
+					<script>
+						let setondatapaste = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							setondatapaste = new FuckingNexacro({
+								target: document.querySelector("#setondatapaste"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							setondatapaste.setOnDataPaste(dataList => {
+								alert(JSON.stringify(dataList));
+								return true;
+							});
+						});
+					</script><br/>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;Ctrl+V 입력 시 반응합니다.</b><br/>
+						<span>데이터그리드의 데이터를 일시적으로 엑셀에 붙여넣은 후, 엑셀의 데이터를 복사하여 데이터그리드에 붙여넣어보세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="03_setondataselect" class="index scrollspy">
+                    <h3>데이터 선택 감지하기</h3>
+					<p>선택된 데이터가 바뀔 때마다 호출될 콜백함수를 등록합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setOnDataSelect(dataList => { return 값이 존재하지 않는 콜백함수 });
+fuckingNexacro.setOnDataSelect(null); // 이벤트 제거
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setOnDataSelect(dataList => console.log("setOnDataSelect: ", dataList));
+        fuckingNexacro.setOnDataSelect(null) // 이벤트 제거
+    });
+</script>
+</xmp></code></pre>
+					<div id="setondataselect"></div>
+					<script>
+						let setondataselect = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							setondataselect = new FuckingNexacro({
+								target: document.querySelector("#setondataselect"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							setondataselect.setOnDataSelect(dataList => console.log("setOnDataSelect: ", dataList));
+						});
+					</script><br/>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;데이터를 선택할 때 마다 반응합니다. 어떤 데이터를 선택했는지 가리지 않고 무조건 호출됩니다.</b><br/>
+						<span>개발자도구 콘솔을 통해 확인해주세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+                <blockquote id="04_setondatacheck" class="index scrollspy">
+                    <h3>데이터 체크 감지하기</h3>
+					<p>체크된 데이터가 바뀔 때마다 호출될 콜백함수를 등록합니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setOnDataCheck(dataList => { return 값이 존재하지 않는 콜백함수 });
+fuckingNexacro.setOnDataCheck(null); // 이벤트 제거
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    fuckingNexacro = null; // 본래는 let 또는 const 를 사용해야하나 IDE 가 계속 이미 선언한 변수라고 오류로 인식해요... 크아아악
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: value => value }, 
+                    { key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: value => value }
+                ], 
+                data: [
+                    { "idx": 0, "username": "username000" }, 
+                    { "idx": 1, "username": "username001" }, 
+                    { "idx": 2, "username": "username002" }, 
+                    { "idx": 3, "username": "username003" }, 
+                    { "idx": 4, "username": "username004" }, 
+                    { "idx": 5, "username": "username005" }, 
+                    { "idx": 6, "username": "username006" }, 
+                    { "idx": 7, "username": "username007" }
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 240, 
+                rowHeight: 32
+            }
+        });
+        
+        fuckingNexacro.setOnDataCheck(dataList => console.log("setOnDataCheck: ", dataList));
+        fuckingNexacro.setOnDataCheck(null) // 이벤트 제거
+    });
+</script>
+</xmp></code></pre>
+					<div id="setondatacheck"></div>
+					<script>
+						let setondatacheck = null;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							setondatacheck = new FuckingNexacro({
+								target: document.querySelector("#setondatacheck"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 100, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 160, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ "idx": 0, "username": "username000" }, 
+										{ "idx": 1, "username": "username001" }, 
+										{ "idx": 2, "username": "username002" }, 
+										{ "idx": 3, "username": "username003" }, 
+										{ "idx": 4, "username": "username004" }, 
+										{ "idx": 5, "username": "username005" }, 
+										{ "idx": 6, "username": "username006" }, 
+										{ "idx": 7, "username": "username007" }
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 240, 
+									rowHeight: 32
+								}
+							});
+
+							setondatacheck.setOnDataCheck(dataList => console.log("setOnDataCheck: ", dataList));
+						});
+					</script><br/>
+					<div class="col s12 card-panel hoverable blue lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">info</span>&nbsp;데이터를 체크할 때 마다 반응합니다. 어떤 데이터를 체크했는지 가리지 않고 무조건 호출됩니다.</b><br/>
+						<span>개발자도구 콘솔을 통해 확인해주세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,257 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">play_arrow</span>&nbsp;기본형</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_intro" class="index scrollspy">
+                    <h3>기본형 생성하기</h3>
+                    <p>단순한 데이터를 보여주는 예시입니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code class="language-html"><xmp><script>
+    new FuckingNexacro(target, props);
+    // target 과 props 는 생성자 호출(new FuckingNexacro(...)) 이전에 미리 정의되어있어야 합니다.
+    // 해당 블록에서는 설명을 돕기 위해 생성자 다음에 기재합니다.
+    
+    target = document.querySelector("#fuckingNexacro"); // 데이터그리드를 배치하기 위한 단일 엘리먼트
+    props = { column, data, keyColumn, width, height, rowHeight, button? }; // 데이터그리드의 특성을 부여하는 프로퍼티 객체
+</script>
+</xmp></code></pre>
+<pre><code class="language-html"><xmp><!-- div 엘리먼트 1개를 미리 준비해야 합니다. -->
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    let fuckingNexacro;
+
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx: 0, username: "username000" }, 
+                    { idx: 1, username: "username001" }, 
+                    { idx: 2, username: "username010" }, 
+                    { idx: 3, username: "username011" }, 
+                    { idx: 4, username: "" }, 
+                    { idx: 5, username: "username101" }, 
+                    { idx: 6, username: "username110" }, 
+                    { idx: 7, username: "username111" } 
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32
+            }
+        });
+    });
+</script>
+</xmp></code></pre>
+					<div id="fuckingNexacro"></div>
+
+					<script>
+						let begin;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							begin = new FuckingNexacro({
+								target: document.querySelector("#fuckingNexacro"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000" }, 
+										{ idx: 1, username: "username001" }, 
+										{ idx: 2, username: "username010" }, 
+										{ idx: 3, username: "username011" }, 
+										{ idx: 4, username: "" }, 
+										{ idx: 5, username: "username101" }, 
+										{ idx: 6, username: "username110" }, 
+										{ idx: 7, username: "username111" } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 320, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;반드시 window.addEventListener("DOMContentLoaded") 이후에 호출되어야 합니다.</b><br/>
+						<span>정체를 알 수 없는 ctx 관련 콘솔 오류가 발생하시는 경우 window.addEventListener("DOMContentLoaded") 이후에 제대로 호출되도록 등록되어있는지 확인해주세요.</span>
+					</div>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;반드시 keyColumn 은 column 배열 중 존재하는 열의 key 값이어야 합니다.</b><br/>
+						<span>keyColumn 이 지정되지 않으면 데이터그리드를 생성하지 않습니다. 이는 기술적 한계가 아닌 개발방침입니다.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="01_readonly" class="index scrollspy">
+					<h3>읽기전용/쓰기모드 설정</h3>
+					<p>데이터 수정이 일체 불가능한 읽기전용 설정입니다. 읽기전용 상태더라도 얼마든지 쓰기모드로 변경/재변경 할 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable red lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">close</span>&nbsp;<a href="./B02_editable.html#01_readonly">데이터 수정</a>&nbsp;과는 다른 읽기전용입니다. 이 페이지에서의 읽기전용은&nbsp;<span style="color:red;">데이터그리드 자체</span>를 읽기전용으로 만드는 방법입니다.</b><br/>
+						<span>또한, 셀의 더블클릭을 통한 수정기능이 모든 열에서 막히며, 데이터의 수정을 유도하는 모든 메소드 또한 차단됩니다.</span>
+					</div>
+<pre><code><xmp>fuckingNexacro.setReadonly(); // 데이터그리드 자체를 읽기전용으로 설정
+fuckingNexacro.setEditable(); // 데이터그리드를 쓰기모드로 변경
+</xmp></code></pre>
+<pre><code class="language-html"><xmp><!-- div 엘리먼트 1개를 미리 준비해야 합니다. -->
+<div id="fuckingNexacro"></div>
+
+<script src="준비된_번들_js파일"></script>
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        fuckingNexacro = new FuckingNexacro({
+            target: document.querySelector("#fuckingNexacro"), 
+            props: {
+                column: [
+                    { key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+                    { key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+                ], 
+                data: [
+                    { idx: 0, username: "username000" }, 
+                    { idx: 1, username: "username001" }, 
+                    { idx: 2, username: "username010" }, 
+                    { idx: 3, username: "username011" }, 
+                    { idx: 4, username: "" }, 
+                    { idx: 5, username: "username101" }, 
+                    { idx: 6, username: "username110" }, 
+                    { idx: 7, username: "username111" } 
+                ], 
+                keyColumn: "idx", 
+                width: "100%", 
+                height: 200, 
+                rowHeight: 32
+            }
+        });
+        fuckingNexacro.setReadonly(); // 읽기전용으로 설정
+        fuckingNexacro.setEditable(); // 쓰기모드로 변경
+    });
+</script>
+</xmp></code></pre>
+					<div id="readonly"></div>
+	
+					<script>
+						let readonly;
+	
+						window.addEventListener("DOMContentLoaded", () => {
+							readonly = new FuckingNexacro({
+								target: document.querySelector("#readonly"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000" }, 
+										{ idx: 1, username: "username001" }, 
+										{ idx: 2, username: "username010" }, 
+										{ idx: 3, username: "username011" }, 
+										{ idx: 4, username: "" }, 
+										{ idx: 5, username: "username101" }, 
+										{ idx: 6, username: "username110" }, 
+										{ idx: 7, username: "username111" } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 320, 
+									rowHeight: 32
+								}
+							});
+							readonly.setReadonly();
+						});
+					</script><br/>
+					<div class="row">
+						<button type="button" class="col s6 btn waves-effect waves-light deep-purple" onclick="readonly.setEditable();">쓰기모드</button>
+						<button type="button" class="col s6 btn btn-flat waves-effect waves-light deep-purple lighten-4" onclick="readonly.setReadonly();">읽기전용</button>
+					</div><br/>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;setReadonly 메소드를 통해 데이터그리드 자체를 잠그는 것이 가능하며, 이로 인해 데이터 수정 및 추가/삭제를 수행하는 모든 메소드가 차단됩니다.</b><br/>
+						<span>Ctrl + C 를 통한 복사는 가능하지만 Ctrl + V 를 통한 붙여넣기는 차단됩니다. 해당 페이지에서 즉시 확인이 가능하므로 개발자도구를 여시고 확인해주세요.</span><br/>
+						<span style="text-decoration: underline;">차단되는 메소드는 documentation 의 api.md 를 통해 확인하실 수 있습니다. "수정가능/읽기전용 지정하기" 문단을 확인해주세요.</span>
+					</div>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

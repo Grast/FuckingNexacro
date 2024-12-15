@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => {
+                scrollTo(0, 0);
+            }
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+		<style>
+			.fn_header_cell:not(.fn_unresizable) { resize: horizontal; overflow-x: auto; }
+			.fn_header { background-color: unset; }
+			.fn_header_colgroup_fixed, .fn_header_colgroup_suffixed { background-color: unset; }
+			.fn_body_colgroup_fixed, .fn_body_colgroup_suffixed { background-color: unset; }
+			.fn_row { display: flex; visibility: visible; }
+			.fn_row.fn_hidden, .fn_row.fn_hidden * { visibility: hidden; }
+			.fn_cell { box-shadow: inset 0px 0px 0px 1px black; }
+			.fn_cell.fn_truncate { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+			.fn_cell span { margin-left: 4px; margin-right: 4px; }
+			.fn_cell.fn_hidden, .fn_cell.fn_hidden * { visibility: hidden; }
+			.fn_cell_button { text-align: center; }
+			.fn_button { width: 100%; height: 100%; border: none; background-color: transparent; }
+			.fn_gone { display: none; }
+			.fn_content { align-content: center; }
+			.fn_input { align-content: center; }
+			.fn_select_item span.fn_select_item_text { margin-left: 4px; margin-right: 4px; }
+			.fn_right_align { text-align: right; }
+
+			.fn_root ::-webkit-scrollbar { width: 4px; height: 4px; }
+			.fn_root .no-scrollbar::-webkit-scrollbar { width: 0px; height: 0px; }
+			.fn_root ::-webkit-scrollbar-track { background-color: lightgray; }
+			.fn_root ::-webkit-scrollbar-thumb {  background-color: gray; }
+			.fn_root ::-webkit-scrollbar-button { display: none; }
+
+			.fn_body_row.fn_row.fn_row_unsaved .fn_cell { font-style: italic; color: unset; }
+			.fn_body_row.fn_row.fn_row_selected .fn_cell { background-color: unset; }
+			.fn_row.fn_row_invalid .fn_cell { background-color: unset; }
+			.fn_row span, .fn_cell span, .fn_cell .fn_button { user-select: none; }
+			.fn_select_list { background-color: unset; padding: 0px; }
+			.fn_select_list, .fn_select_item { background-color: unset; box-shadow: inset 0px 0px 0px 1px black; align-content: center;}
+			.fn_select_list, .fn_select_item:hover { background-color: unset; }
+			.fn_select_list, .fn_select_item.fn_select_selected { background-color: unset; }
+			.fn_select_list, .fn_select_item.fn_select_selected:hover { background-color: unset; }
+		</style>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">table_rows</span>&nbsp;바디 행 (row)</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_header" class="index scrollspy">
+					<h3>바디 행 (row)</h3>
+					<p>데이터그리드에서 데이터 당 한 줄씩 표현되는 행을 지정합니다.</p>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;사용중인 CSS 프레임워크가 있을 경우 일부 CSS 가 의도치 않은대로 표현되거나 무시될 수 있습니다.</b><br/>
+						<span>브라우저의 개발자도구를 이용해 CSS 의 충돌을 추적하여 CSS 를 보강하신 다음 사용하시길 권장합니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">css</span>&nbsp;항목마다 다른 색상을 사용하여 설명합니다.</b><br/>
+						<span>행은&nbsp;<b style="color: darkorange;">darkorange</b>&nbsp;색상을 사용합니다.</span>
+					</div>
+<pre><code class="language-css"><xmp>/* 순서는 header 와 body 각각 row > colgroup > col > cell 순서대로 배치됩니다. */
+
+/* fn_header > fn_header_row > fn_header_colgroup > fn_header_cell */
+/* fn_body   > fn_body_row   > fn_body_colgroup   > fn_body_cell   */    /* header 뿐만 아니라 body에도 동일하게 구분 가능 */
+
+.fn_body_row.fn_row 
+  .fn_body_colgroup_fixed.fn_body_colgroup.fn_colgroup
+    .fn_body_cell.fn_cell
+  .fn_body_colgroup_unfixed.fn_body_colgroup.fn_colgroup
+    .fn_body_cell.fn_cell
+  .fn_body_colgroup_suffixed.fn_body_colgroup.fn_colgroup
+    .fn_body_cell.fn_cell
+
+.fn_header .fn_row .fn_cell { background-color: darkorange; }
+.fn_header .fn_row .fn_header_colgroup_unfixed .fn_cell:nth-child(2) { background-color: unset; }
+.fn_body .fn_row:nth-child(1) { background-color: orange; }
+.fn_body .fn_row:nth-child(1) .fn_body_colgroup_unfixed .fn_cell:nth-child(1) { background-color: darkred; }
+/* 전통적인 nth-child 방식은 그대로 사용이 가능하나 제가 제대로 사용할 줄 몰라 딱히 드릴 설명이 없습니다... */
+.fn_body .fn_row[data-keyColumn="1"] { background-color: gold; }
+.fn_body .fn_row[data-keyColumn="1"] .fn_body_colgroup_unfixed .fn_cell:nth-child(1) { background-color: orangered; }
+/* .fn_row 엘리먼트에서 [data-keyColumn="데이터의 keyColumn 값"] 을 사용할 수 있습니다. 데이터 값을 알고 있다면 이 방식이 권장됩니다. */
+.fn_body .fn_row[data-index="2"] { background-color: yellow; }
+/* .fn_row 엘리먼트에서 [data-index="0번부터 시작하는 데이터의 순서번호"] 을 사용할 수 있습니다. */
+</xmp></code></pre>
+					<style>
+						#body .fn_header .fn_cell { background-color: darkorange; }
+						#body .fn_header .fn_row .fn_header_colgroup_unfixed .fn_cell:nth-child(2) { background-color: unset; }
+						#body .fn_body .fn_row:nth-child(1) { background-color: orange; }
+						#body .fn_body .fn_row:nth-child(1) .fn_body_colgroup_unfixed .fn_cell:nth-child(1) { background-color: darkred; }
+						#body .fn_body .fn_row:nth-child(2) { background-color: gold; }
+						#body .fn_body .fn_row:nth-child(2) .fn_body_colgroup_unfixed .fn_cell:nth-child(1) { background-color: orangered; }
+						#body .fn_body .fn_row:nth-child(3) { background-color: yellow; }
+					</style>
+					<div id="body"></div>
+					<script>
+						let body;
+
+						window.addEventListener("DOMContentLoaded", () => {
+							body = new FuckingNexacro({
+								target: document.querySelector("#body"), 
+								props: {
+									column: [
+										{ key: "idx", text: "일련번호", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "username", text: "사용자명", width: 200, type: "string", fixed: false, format: null }, 
+										{ key: "enableYn", text: "활성화여부", width: 120, type: "boolean", fixed: false, format: null }, 
+										{ key: "scorePrv", text: "이전점수", width: 120, type: "number", fixed: false, format: null }, 
+										{ key: "scoreCur", text: "해당점수", width: 120, type: "number", fixed: false, format: null }
+									], 
+									data: [
+										{ idx: 0, username: "username000", scorePrv: 80, scoreCur: 100 }, 
+										{ idx: 1, username: "username001", scorePrv: 70, scoreCur:  90 }, 
+										{ idx: 2, username: "username010", scorePrv: 60, scoreCur:  80 }, 
+										{ idx: 3, username: "username011", scorePrv: 50, scoreCur:  70 }, 
+										{ idx: 4, username: "", scorePrv: 40, scoreCur:  60 }, 
+										{ idx: 5, username: "username101", scorePrv: 30, scoreCur:  50 }, 
+										{ idx: 6, username: "username110", scorePrv: 20, scoreCur:  40 }, 
+										{ idx: 7, username: "username111", scorePrv: 10, scoreCur:  30 } 
+									], 
+									keyColumn: "idx", 
+									width: "100%", 
+									height: 200, 
+									rowHeight: 32
+								}
+							});
+						});
+					</script><br/>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

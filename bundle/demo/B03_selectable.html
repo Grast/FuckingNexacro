@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">arrow_drop_down_circle</span>&nbsp;데이터 선택 (콤보박스)</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_css_selectable" class="index scrollspy">
+                    <h3>콤보박스 설정하기</h3>
+					<p>자유입력식이 아닌 선택지 중에서 데이터를 고르는 방식으로 열을 설정할 수 있습니다.</p>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;해당 데이터그리드에 사용된 CSS 는&nbsp;<a href="/bundle/demo/A00_css_example.html">이곳</a>을 참고하시기 바랍니다.</b><br/>
+						<span>이후 다른 문서에서도 해당 CSS 가 공통적으로 사용되나 어디까지나 예시일 뿐이며, 사용자가 직접 CSS 를 자유자재로 수정하여 사용할 수 있습니다.</span>
+					</div>
+<pre><code><xmp>// group 을 배열 형태의 데이터로 설정 시 select 형태로 사용 가능
+group: [{ value: true, text: "Y" }, { value: false, text: "N" }] // "Y" 와 "N" 으로 보여지지만 실제로 취급되는 데이터는 true 와 false
+group: null // select 콤보박스를 사용하지 않음
+</xmp></code></pre>
+<pre><code class="language-html"><xmp>
+<div id="fuckingNexacro"></div>
+
+<script>
+    let fuckingNexacro;
+    let rateGroup = [
+        { value: "1", text: "★☆☆☆☆" },
+        { value: "2", text: "★★☆☆☆" },
+        { value: "3", text: "★★★☆☆" },
+        { value: "4", text: "★★★★☆" },
+        { value: "5", text: "★★★★★" }
+    ];
+					
+    window.addEventListener("DOMContentLoaded", () => {
+        fetch("https://dummyjson.com/quotes").then(res => res.json()).then(resultList => {
+            fuckingNexacro = new FuckingNexacro({
+                target: document.querySelector("#fuckingNexacro"), 
+                props: {
+                    column: [
+                        { key: "id", text: "id", width: 80, type: "number", fixed: true, format: null }, 
+                        { key: "quote", text: "구절", width: 240, type: "string", fixed: false, format: value => value }, 
+                        { key: "author", text: "지으니", width: 100, type: "string", fixed: false, format: value => value }, 
+                        { key: "rate", text: "평가", width: 120, type: "number", fixed: false, group: rateGroup, format: null }
+                    ], 
+                    data: resultList.quotes, 
+                    keyColumn: "id", 
+                    width: "100%", 
+                    height: 320, 
+                    rowHeight: 32
+                }
+            });
+        });
+    });
+</script>
+</xmp></code></pre>
+				<div id="fuckingNexacro"></div>
+
+				<script>
+					let selectable;
+					let rateGroup0 = [
+						{ value: "1", text: "★☆☆☆☆" },
+						{ value: "2", text: "★★☆☆☆" },
+						{ value: "3", text: "★★★☆☆" },
+						{ value: "4", text: "★★★★☆" },
+						{ value: "5", text: "★★★★★" }
+					];
+									
+					window.addEventListener("DOMContentLoaded", () => {
+						fetch("https://dummyjson.com/quotes").then(res => res.json()).then(resultList => {
+							selectable = new FuckingNexacro({
+								target: document.querySelector("#fuckingNexacro"), 
+								props: {
+									column: [
+										{ key: "id", text: "id", width: 80, type: "number", fixed: true, format: null }, 
+										{ key: "quote", text: "구절", width: 240, type: "string", fixed: false, format: value => value }, 
+										{ key: "author", text: "지으니", width: 100, type: "string", fixed: false, format: value => value }, 
+										{ key: "rate", text: "평가", width: 120, type: "string", fixed: false, group: rateGroup0, format: null }
+									], 
+									data: resultList.quotes, 
+									keyColumn: "id", 
+									width: "100%", 
+									height: 320, 
+									rowHeight: 32
+								}
+							});
+						});
+					});
+				</script>
+				</blockquote><br/><br/><br/>
+				<div class="divider"></div><br/><br/><br/>
+				<blockquote id="01_selectable_format" class="index scrollspy">
+					<h3>지정된 포맷</h3>
+					<p>column.group 을 지정하기 위한 형식이 있으며, 이 양식의 형태여야 콤보박스로 선택할 수 있습니다.</p>
+<pre><code class="language-html"><xmp>
+<script>
+    let comboboxList;
+    /* 1. 배열 형태여야 합니다. 갯수 제한은 없으나 표시제한은 5개입니다. */
+    comboboxList = [];
+    
+    /* 2. 2개의 프로퍼티로 구성되며, 각각 value, text 로 구성됩니다. */
+    comboboxList = [
+        { value:  1, text: "1점" }, 
+        { value:  2, text: "2점" }, 
+        { value:  3, text: "3점" }, 
+        { value:  4, text: "4점" }, 
+        { value:  5, text: "5점" }, 
+        { value:  6, text: "6점" }, 
+        { value:  7, text: "7점" }, 
+        { value:  8, text: "8점" }, 
+        { value:  9, text: "9점" }, 
+        { value: 10, text: "10점" }
+    ];
+    
+    /* 3. 이미 존재하는 데이터를 group 으로 사용하기 위한 경우에는 [].map 을 이용해 group 에 맞는 형태로 변환해서 사용하면 됩니다. */
+    let existsDataList = [
+        { idx:  1, username: "username01" }, 
+        { idx:  2, username: "username02" }, 
+        { idx:  3, username: "username03" }, 
+        { idx:  4, username: "username04" }, 
+        { idx:  5, username: "username05" }, 
+        { idx:  6, username: "username06" }, 
+        { idx:  7, username: "username07" }, 
+        { idx:  8, username: "username08" }
+    ];
+    comboboxList = existsDataList.map(item => ({ "value": item.idx, "text": item.username }));
+
+    const example = new FuckingNexacro({
+        target: elExample, 
+        props: {
+            column: [
+            	{ "group": comboboxList }
+            ]
+        }
+    });
+</script>
+</xmp></code></pre>
+				<div class="col s12 card-panel orange lighten-4">
+					<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;column.type 이 boolean 일 경우 group 속성은 무시됩니다.</b><br/>
+					<span>콤보박스가 아닌 체크박스가 나타나는 경우 type 이 boolean 으로 지정되었는지 확인해주세요.</span>
+				</div>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>

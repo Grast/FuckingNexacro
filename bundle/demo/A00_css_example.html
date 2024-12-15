@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FuckingNexacro Demo</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+        <link rel="stylesheet" href="../index.css">
+        <link rel="stylesheet" href="../fuckingNexacro.css">
+        <link rel="stylesheet" id="link_theme" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="../bundle.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script>
+            const toggleMenu = () => {
+                const body = document.body;
+                body.classList.toggle("sidenav-on");
+            }
+            const toggleTheme = () => {
+                localStorage["isLightTheme"] = localStorage["isLightTheme"] == "Y"? "N": "Y";
+
+                setTheme();
+            }
+            const setTheme = () => {
+                document.querySelector("#link_theme").href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/" + (localStorage["isLightTheme"] == "N"? "github-dark": "default") + ".min.css";
+                document.querySelector("#switch_theme").textContent = (localStorage["isLightTheme"] == "N"? "brightness_3": "brightness_7");
+            }
+            const quickScroll = () => {
+                scrollTo(0, 0);
+            }
+
+            window.addEventListener("DOMContentLoaded", () => {
+                localStorage["isLightTheme"] = ["Y", "N"].indexOf(localStorage["isLightTheme"]) > -1? localStorage["isLightTheme"]: "";
+                setTheme();
+
+                const sidenav = document.querySelector(".sidenav");
+                const indexed = document.querySelectorAll(".index");
+
+                indexed.forEach(indexedItem => {
+                    const id = indexedItem.id;
+                    const text = indexedItem.firstElementChild.textContent || "(텍스트 없음)";
+
+                    sidenav.innerHTML = sidenav.innerHTML + (`<li><a href="#${id}" class="waves-effect">${text}</a></li>`);
+                });
+
+                M.ScrollSpy.init(document.querySelectorAll(".scrollspy"), {
+                    activeClass: "active"
+                });
+            });
+        </script>
+    </head>
+    <body class="col s12 sidenav-on">
+        <ul id="slide-index" class="sidenav sidenav-fixed">
+            <li><a href="/bundle/index.html" class="waves-effect"><span class="material-symbols-sharp">home</span>&nbsp;목차로</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">문서 목차</a></li>
+        </ul>
+        <main class="col s12">
+            <div class="col s12 container">
+                <blockquote class="col s12">
+                    <h1>FuckingNexacro</h1>
+                    <div class="col s12 right valign-wrapper">
+                        <div style="position:fixed;display:flex;">
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleTheme();"><span id="switch_theme" class="material-symbols-sharp">brightness_7</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="toggleMenu();"><span class="material-symbols-sharp">menu</span></button><br/>
+                            <button class="btn btn-flat waves-effect waves-light right" onclick="quickScroll();"><span class="material-symbols-sharp">arrow_upward</span></button>
+                        </div>
+                    </div>
+                    <h5 class="valign-wrapper"><span class="material-symbols-sharp">palette</span>&nbsp;CSS 예시</h5>
+                </blockquote>
+            </div>
+            <div class="divider"></div>
+            <div class="col s12 container">
+                <blockquote id="00_css_example" class="index scrollspy">
+                    <h3>CSS 예시</h3>
+					<p>FuckingNexacro 는 기본적인 스타일이 제공되지 않는 대신, 예시 CSS 를 그대로 복붙한 다음 사용자가 자유자재로 스타일을 입힐 수 있도록 지원합니다.</p>
+					<p class="strike">코더가 트렌드에 맞게 스타일을 입힐 줄 알겠냐구요...</p>
+					<div class="col s12 card-panel hoverable orange lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">warning</span>&nbsp;사용중인 CSS 프레임워크가 있을 경우 일부 CSS 가 의도치 않은대로 표현되거나 무시될 수 있습니다.</b><br/>
+						<span>브라우저의 개발자도구를 이용해 CSS 의 충돌을 추적하여 CSS 를 보강하신 다음 사용하시길 권장합니다.</span>
+					</div>
+					<div class="col s12 card-panel hoverable grey lighten-4">
+						<b class="valign-wrapper"><span class="material-symbols-sharp">css</span>&nbsp;예시는 라벤더 퍼플, 밝은 퍼플 계열을 기반으로 작성되었습니다.</b><br/>
+						<span class="strike">취향입니다 존중해주시죠</span>
+					</div>
+<pre><code class="language-html"><xmp>
+<style>
+/* 구획 클래스 */
+.fn_header_cell:not(.fn_unresizable) { resize: horizontal; overflow-x: auto; }
+.fn_header { background-color: #77F; }
+.fn_header_colgroup_fixed, .fn_header_colgroup_suffixed { background-color: #77F; }
+.fn_body_colgroup_fixed, .fn_body_colgroup_suffixed { background-color: #BBF; }
+.fn_row { display: flex; visibility: visible; }
+.fn_row.fn_hidden, .fn_row.fn_hidden * { visibility: hidden; }
+.fn_cell { box-shadow: inset 0px 0px 0px 1px black; }
+.fn_cell.fn_truncate { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fn_cell span { margin-left: 4px; margin-right: 4px; }
+.fn_cell.fn_hidden, .fn_cell.fn_hidden * { visibility: hidden; }
+.fn_cell_button { text-align: center; }
+.fn_button { width: 100%; height: 100%; border: none; background-color: transparent; }
+.fn_gone { display: none; }
+.fn_content { align-content: center; }
+.fn_input { align-content: center; }
+.fn_select_item span.fn_select_item_text { margin-left: 4px; margin-right: 4px; }
+.fn_right_align { text-align: right; }
+
+.fn_root ::-webkit-scrollbar { width: 4px; height: 4px; }
+.fn_root .no-scrollbar::-webkit-scrollbar { width: 0px; height: 0px; }
+.fn_root ::-webkit-scrollbar-track { background-color: lightgray; }
+.fn_root ::-webkit-scrollbar-thumb {  background-color: gray; }
+.fn_root ::-webkit-scrollbar-button { display: none; }
+
+/* 이벤트 클래스 */
+.fn_body_row.fn_row.fn_row_unsaved .fn_cell { font-style: italic; color: #F33 }
+.fn_body_row.fn_row.fn_row_selected .fn_cell { background-color: #55B; }
+.fn_row.fn_row_invalid .fn_cell { background-color: #919; }
+.fn_row span, .fn_cell span, .fn_cell .fn_button { user-select: none; }
+.fn_select_list { background-color: #DDF; padding: 0px; }
+.fn_select_list, .fn_select_item { background-color: #DDF; box-shadow: inset 0px 0px 0px 1px black; align-content: center;}
+.fn_select_list, .fn_select_item:hover { background-color: #BBF; }
+.fn_select_list, .fn_select_item.fn_select_selected { background-color: #09F; }
+.fn_select_list, .fn_select_item.fn_select_selected:hover { background-color: #07D; }
+
+/* setRowClass 사용자 임의지정 클래스 */
+/* 디자이너가 class 를 명시하면 개발자가 조건에 따라 class 를 부여하는 기능입니다. 개발자와 setRowClass 상의를 하시기 바랍니다. */
+.fn_body_row.fn_row.custom { background-color: #CFC; }
+.fn_body_row.fn_row.custom.custom_low_discount { background-color: #9F9; }
+.fn_body_row.fn_row.custom.custom_mid_discount { background-color: #6F6; }
+.fn_body_row.fn_row.custom.custom_high_discount { background-color: #3F3; }
+
+/* setCellClass 사용자 임의지정 클래스 */
+/* 디자이너가 class 를 명시하면 개발자가 조건에 따라 class 를 부여하는 기능입니다. 개발자와 setCellClass 상의를 하시기 바랍니다. */
+.custom.custom_long_description { background-color: #F77; }
+.custom.custom_short_description { background-color: #BBB; }
+</style>
+</xmp></code></pre>
+				<p>예시 CSS 를 복사/붙여넣기 하신 다음, 원하시는대로 수정해서 사용하시면 됩니다.</p>
+				</blockquote><br/><br/><br/>
+            </div>
+        </main>
+    </body>
+</html>
